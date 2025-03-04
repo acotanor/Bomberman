@@ -19,6 +19,10 @@ public class MatrizBloques extends Observable
 		return miMB;
 	}
 	
+	public Bloque[][] getMatriz(){
+		return matriz;
+	}
+	
 	//Genera una pantalla con bloques duros en casillas impares, y bloques duros y blandos en las demas
 	public void inicializarPantallaClasica()
 	{
