@@ -1,4 +1,4 @@
-package bbr;
+package observer;
 
 public class BloqueVacio extends Bloque 
 {

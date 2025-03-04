@@ -1,4 +1,4 @@
-package bbr;
+package observer;
 import java.util.Observable;
 import java.util.Random;
 import java.util.Observer;
