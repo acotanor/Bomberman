@@ -1,9 +1,13 @@
 package observable;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
@@ -45,31 +49,32 @@ public class MainFrame extends JFrame {
         matrizBloques = MatrizBloques.getMB();
         matrizBloques.inicializarPantallaClasica();
         
-        contentPane = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Bloque[][] matriz = matrizBloques.getMatriz();
-                for (int i = 0; i < matriz.length; i++) {
-                    for (int j = 0; j < matriz[i].length; j++) {
-                        if (matriz[i][j] instanceof BloqueDuro) {
-                            g.drawString("D", j * 20, i * 20);
-                        } else if (matriz[i][j] instanceof BloqueBlando) {
-                            g.drawString("B", j * 20, i * 20);
-                        } else if (matriz[i][j] instanceof BloqueVacio) {
-                            g.drawString("V", j * 20, i * 20);
-                        } else {
-                            g.drawString("E", j * 20, i * 20);
-                        }
-                    }
-                }
-            }
-        };
+        contentPane = new JPanel();
         
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new GridLayout(11, 17));
-
+        contentPane.setBackground(Color.BLACK);
+        
         
         setContentPane(contentPane);
+        
+        Bloque[][] matriz = matrizBloques.getMatriz();
+        JLabel[][] labels = new JLabel[11][17];
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (matriz[i][j] instanceof BloqueDuro) {
+                	labels[i][j] = new JLabel("");
+                	labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/hard5.png")));
+                	contentPane.add(labels[i][j]);
+                } else if (matriz[i][j] instanceof BloqueBlando) {
+                	labels[i][j] = new JLabel("");
+                	labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/soft1.png")));
+                	contentPane.add(labels[i][j]);
+                } else if (matriz[i][j] instanceof BloqueVacio) {
+                	labels[i][j] = new JLabel("");
+                	contentPane.add(labels[i][j]);
+                }
+            }
+        }
     }
 }
