@@ -7,18 +7,21 @@ public class Bomberman extends Observable
 	int[] coordenadas;
 	boolean blanco;
 	boolean vivo;
+	private static Bomberman miBom = new Bomberman();
 	
 	
 	
 	
-	
-	public Bomberman()
+	private Bomberman()
 	{
 		coordenadas = new int[2];
 		coordenadas[0] = 0;// coordenada x en la que esta bomberman, siempre empieza en la 0
 		coordenadas[1] = 0;// coordenada Y en la que esta bomberman, siempre empieza en la 0
 	}
-	
+	public static Bomberman getBom()
+	{
+		return miBom;
+	}
 	private void actualizarPos() {// Manda a Partida la informacion sobre l posicion del bomberman
 		//falta
 		
