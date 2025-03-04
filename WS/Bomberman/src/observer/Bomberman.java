@@ -1,6 +1,5 @@
 package observer;
 import java.util.Observable;
-import java.util.Observer;
 
 public class Bomberman extends Observable
 {
@@ -29,9 +28,11 @@ public class Bomberman extends Observable
 	}
 	
 	public void actualizar() {//Metodo que busca si la posicion actual de bomberman le puede hacer daño
+		
 		if (observer.MatrizBloques.getMB().estaArdiendo(coordenadas[0],coordenadas[1])) {
-			
 			haMuerto();
+			setChanged();
+			notifyObservers("Dead");
 		}
 	}
 		
@@ -49,6 +50,7 @@ public class Bomberman extends Observable
 		if (coordenadas[0] > 0 && !MatrizBloques.getMB().hayBloque(coordenadas[0]-1,coordenadas[1])) 
 		{
 			coordenadas[0]--;
+			notificarPosicion();
 			actualizar();
 		}
 	}
@@ -57,6 +59,7 @@ public class Bomberman extends Observable
 		if (coordenadas[0] < 10 && !MatrizBloques.getMB().hayBloque(coordenadas[0]+1,coordenadas[1])) 
 		{
 			coordenadas[0]++;
+			notificarPosicion();
 			actualizar();
 		}
 	}
@@ -66,6 +69,7 @@ public class Bomberman extends Observable
 		if (coordenadas[1] > 0 && !MatrizBloques.getMB().hayBloque(coordenadas[0],coordenadas[1]-1)) 
 		{
 			coordenadas[1]--;
+			notificarPosicion();
 			actualizar();
 		}
 	}
@@ -75,8 +79,15 @@ public class Bomberman extends Observable
 		if (coordenadas[1] < 16 && !MatrizBloques.getMB().hayBloque(coordenadas[0],coordenadas[1]+1)) 
 		{
 			coordenadas[1]++;
+			notificarPosicion();
 			actualizar();
 		}
 
+	}
+
+	private void notificarPosicion()
+	{
+		setChanged();
+		notifyObservers("M," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]));
 	}
 }

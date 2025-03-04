@@ -2,7 +2,6 @@ package observer;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Observable;
-import java.util.Observer;
 
 public class Bomba extends Observable
 {
@@ -18,5 +17,8 @@ public class Bomba extends Observable
 		};
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 3000);
+		
+		setChanged();
+		notifyObservers("B," + String.valueOf(pI) + "," + String.valueOf(pJ));
 	}
 }
