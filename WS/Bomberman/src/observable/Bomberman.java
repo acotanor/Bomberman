@@ -1,4 +1,4 @@
-package observer;
+package observable;
 import java.util.Observable;
 
 public class Bomberman extends Observable
@@ -22,14 +22,10 @@ public class Bomberman extends Observable
 		return miBom;
 	}
 	
-	private void actualizarPos() {// Manda a Partida la informacion sobre la posicion del bomberman
-		//falta
-		
-	}
 	
 	public void actualizar() {//Metodo que busca si la posicion actual de bomberman le puede hacer daño
 		
-		if (observer.MatrizBloques.getMB().estaArdiendo(coordenadas[0],coordenadas[1])) {
+		if (MatrizBloques.getMB().estaArdiendo(coordenadas[0],coordenadas[1])) {
 			haMuerto();
 			setChanged();
 			notifyObservers("Dead");
@@ -50,7 +46,7 @@ public class Bomberman extends Observable
 		if (coordenadas[0] > 0 && !MatrizBloques.getMB().hayBloque(coordenadas[0]-1,coordenadas[1])) 
 		{
 			coordenadas[0]--;
-			notificarPosicion();
+			notificarPosicion("Arriba");
 			actualizar();
 		}
 	}
@@ -59,7 +55,7 @@ public class Bomberman extends Observable
 		if (coordenadas[0] < 10 && !MatrizBloques.getMB().hayBloque(coordenadas[0]+1,coordenadas[1])) 
 		{
 			coordenadas[0]++;
-			notificarPosicion();
+			notificarPosicion("Abajo");
 			actualizar();
 		}
 	}
@@ -69,7 +65,7 @@ public class Bomberman extends Observable
 		if (coordenadas[1] > 0 && !MatrizBloques.getMB().hayBloque(coordenadas[0],coordenadas[1]-1)) 
 		{
 			coordenadas[1]--;
-			notificarPosicion();
+			notificarPosicion("Izquierda");
 			actualizar();
 		}
 	}
@@ -79,15 +75,15 @@ public class Bomberman extends Observable
 		if (coordenadas[1] < 16 && !MatrizBloques.getMB().hayBloque(coordenadas[0],coordenadas[1]+1)) 
 		{
 			coordenadas[1]++;
-			notificarPosicion();
+			notificarPosicion("Derecha");
 			actualizar();
 		}
 
 	}
 
-	private void notificarPosicion()
+	public void notificarPosicion(String dir)
 	{
 		setChanged();
-		notifyObservers("M," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]));
+		notifyObservers("Bomber," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]) + "," + dir);
 	}
 }

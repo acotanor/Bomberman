@@ -1,4 +1,4 @@
-package observer;
+package observable;
 import java.util.Observable;
 import java.util.Random;
 import java.util.Observer;
@@ -7,6 +7,7 @@ public class MatrizBloques extends Observable
 {
 	private static MatrizBloques miMB = new MatrizBloques();
 	private Bloque[][] matriz;
+	
 	
 	private MatrizBloques() 
 	{
@@ -40,6 +41,7 @@ public class MatrizBloques extends Observable
 			for (int j=1;j<17;j+=2)
 			{
 				matriz[i][j] = new BloqueDuro();
+				notificarBloque(i,j,"BloqueDuro");
 			}
 		}
 	}
@@ -58,6 +60,7 @@ public class MatrizBloques extends Observable
 					if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0))
 					{
 						matriz[i][j] = new BloqueVacio();
+						notificarBloque(i,j,"BloqueVacio");
 					}
 					else 
 					{
@@ -67,10 +70,12 @@ public class MatrizBloques extends Observable
 						{
 							case 0:
 								matriz[i][j] = new BloqueVacio();
+								notificarBloque(i,j,"BloqueVacio");
 								break;
 								
 							case 1:
 								matriz[i][j] = new BloqueBlando();
+								notificarBloque(i,j,"BloqueBlando");
 								break;
 						}
 					}
@@ -129,29 +134,34 @@ public class MatrizBloques extends Observable
 	{
 		//Bloque del centro
 		matriz[pI][pJ] = new BloqueArdiendo(pI,pJ);
+		notificarBloque(pI,pJ,"BloqueArdiendo");
 		
 		//Bloque de arriba
 		if(pI>0 && !(matriz[pI-1][pJ] instanceof BloqueDuro))
 		{
 			matriz[pI-1][pJ] = new BloqueArdiendo(pI-1,pJ);
+			notificarBloque(pI-1,pJ,"BloqueArdiendo");
 		}
 		
 		//Bloque de debajo
 		if(pI<10 && !(matriz[pI+1][pJ] instanceof BloqueDuro))
 		{
 			matriz[pI+1][pJ] = new BloqueArdiendo(pI+1,pJ);
+			notificarBloque(pI+1,pJ,"BloqueArdiendo");
 		}
 		
 		//Bloque de la izquierda
 		if(pJ>0 && !(matriz[pI][pJ-1] instanceof BloqueDuro))
 		{
 			matriz[pI][pJ-1] = new BloqueArdiendo(pI,pJ-1);
+			notificarBloque(pI,pJ-1,"BloqueArdiendo");
 		}
 		
 		//Bloque de la derecha
 		if(pJ<16 && !(matriz[pI][pJ+1] instanceof BloqueDuro))
 		{
 			matriz[pI][pJ+1] = new BloqueArdiendo(pI,pJ+1);
+			notificarBloque(pI,pJ+1,"BloqueArdiendo");
 		}
 	}
 	
@@ -159,5 +169,14 @@ public class MatrizBloques extends Observable
 	public void dejarDeArder(int pI, int pJ)
 	{
 		matriz[pI][pJ] = new BloqueVacio();
+		notificarBloque(pI,pJ,"BloqueVacio");
 	}
+
+	private void notificarBloque(int i, int j, String tipo)
+	{
+		setChanged();
+		notifyObservers(tipo + "," + String.valueOf(i) + "," + String.valueOf(j));
+	}
+	
+	
 }

@@ -1,4 +1,4 @@
-package observer;
+package observable;
 
 public class BloqueBlando extends Bloque 
 {

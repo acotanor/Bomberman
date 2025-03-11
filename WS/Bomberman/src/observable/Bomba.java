@@ -1,4 +1,4 @@
-package observer;
+package observable;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Observable;
@@ -13,12 +13,13 @@ public class Bomba extends Observable
 			@Override
 			public void run() {
 				MatrizBloques.getMB().arder(pI, pJ);
+				timer.cancel();
 			}		
 		};
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 3000);
+		timer.scheduleAtFixedRate(timerTask, 3000, 3000);
 		
 		setChanged();
-		notifyObservers("B," + String.valueOf(pI) + "," + String.valueOf(pJ));
+		notifyObservers("Bomba," + String.valueOf(pI) + "," + String.valueOf(pJ));
 	}
 }
