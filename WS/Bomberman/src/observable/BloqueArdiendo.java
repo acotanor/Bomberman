@@ -10,11 +10,13 @@ public class BloqueArdiendo extends Bloque
 	{
 		TimerTask timerTask = new TimerTask() {
 			@Override
-			public void run() {
+			public void run() 
+			{
 				MatrizBloques.getMB().dejarDeArder(pI, pJ);
+				timer.cancel();
 			}		
 		};
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 2000);
+		timer.scheduleAtFixedRate(timerTask, 2000, 2000);
 	}
 }

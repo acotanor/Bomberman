@@ -29,7 +29,6 @@ public class MatrizBloques extends Observable
 	{
 		generarBloquesDuros();
 		generarBloquesVaciosYBlandos();
-		imprimirMatriz();
 	}
 	
 	//Genera bloques duros en casillas impares
@@ -163,6 +162,8 @@ public class MatrizBloques extends Observable
 			matriz[pI][pJ+1] = new BloqueArdiendo(pI,pJ+1);
 			notificarBloque(pI,pJ+1,"BloqueArdiendo");
 		}
+		
+		Bomberman.getBom().actualizar();
 	}
 	
 	//El bloque de la fila pI y la columna pJ pasa de ser un bloque ardiendo a un bloque vacio
@@ -171,7 +172,8 @@ public class MatrizBloques extends Observable
 		matriz[pI][pJ] = new BloqueVacio();
 		notificarBloque(pI,pJ,"BloqueVacio");
 	}
-
+	
+	//Notifica el tipo del bloque de la fila y la columna j a la vista
 	private void notificarBloque(int i, int j, String tipo)
 	{
 		setChanged();
