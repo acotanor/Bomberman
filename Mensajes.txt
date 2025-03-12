@@ -1,0 +1,8 @@
+Muerte: Dead,[Fila],[Columna]
+Posicion del bomberman: Bomber,[Fila],[Columna],[Direccion],[Animación],[Bomba]
+Bomba: Bomba,[Fila],[Columna]
+
+Bloque duro:BloqueDuro,[Fila],[Columna]
+Bloque blando:BloqueBlando,[Fila],[Columna]
+Bloque vacio:BloqueVacio,[Fila],[Columna]
+Bloque ardiendo:BloqueArdiendo,[Fila],[Columna]
