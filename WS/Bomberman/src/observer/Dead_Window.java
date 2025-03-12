@@ -35,14 +35,15 @@ public class Dead_Window extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setLocation(800,100);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(237, 51, 59), 20, true));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("PARTIDA ACABADA");
-		lblNewLabel.setBounds(163, 128, 154, 51);
+		JLabel lblNewLabel = new JLabel("HAS MUERTO");
+		lblNewLabel.setBounds(180, 35, 200, 200);
 		contentPane.add(lblNewLabel);
 	}
 }

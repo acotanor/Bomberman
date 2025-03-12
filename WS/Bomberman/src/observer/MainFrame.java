@@ -2,12 +2,15 @@ package observer;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.*;
 import java.util.Observer;
 import java.util.Observable;
@@ -22,6 +25,11 @@ public class MainFrame extends JFrame implements Observer {
     
     private Controlador controlador;
     
+    private String ultimaDir="";
+    private int anim=1;
+    
+    private boolean finished = false;
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -35,8 +43,7 @@ public class MainFrame extends JFrame implements Observer {
         });
     }
 
-    
-    public MainFrame() 
+	public MainFrame() 
     {
     	controlador = new Controlador();
     	
@@ -48,11 +55,18 @@ public class MainFrame extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 450);
         
-        contentPane = new JPanel();
+        contentPane = new JPanel(){
+            private Image imagen = new ImageIcon(MainFrame.class.getResource("/Imgs/stageBack1.png")).getImage(); // Carga la imagen
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new GridLayout(11, 17));
-        contentPane.setBackground(Color.BLUE);
         
         setContentPane(contentPane);
         
@@ -117,7 +131,14 @@ public class MainFrame extends JFrame implements Observer {
 			}
 			else if(msg.startsWith("BloqueArdiendo"))
 			{
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/kaBomb0.png")));
+				String anim = "1";
+				
+				if(msg.startsWith("BloqueArdiendoA"))
+				{
+					anim = split[3];
+				}
+				
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/kaBomb" + anim + ".png")));
 			}
 		}
 		else if(msg.startsWith("Bomber"))
@@ -126,8 +147,21 @@ public class MainFrame extends JFrame implements Observer {
 			int i = Integer.valueOf(split[1]);
 			int j = Integer.valueOf(split[2]);
 			String direccion = split[3];
-			String anim = split[4];
-			boolean hayBomba = Boolean.valueOf(split[5]);
+			boolean hayBomba = Boolean.valueOf(split[4]);
+			
+			if(ultimaDir.equals(direccion))
+			{
+				anim++;
+				if((direccion.equals("Abajo") && anim>4) || anim>5)
+				{
+					anim = 1;
+				}
+			}
+			else 
+			{
+				anim = 1;
+				ultimaDir = direccion;
+			}
 			
 			String icono ="";
 			if(hayBomba) 
@@ -137,17 +171,17 @@ public class MainFrame extends JFrame implements Observer {
 			
 			if(direccion.equals("Izquierda"))
 			{
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteleft" + anim + ".png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteleft" + String.valueOf(anim) + ".png")));
 				labels[i][j+1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
 			else if(direccion.equals("Arriba"))
 			{
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteup" + anim + ".png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteup" + String.valueOf(anim) + ".png")));
 				labels[i+1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
 			else if(direccion.equals("Abajo"))
 			{
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitedown" + anim + ".png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitedown" + String.valueOf(anim) + ".png")));
 				labels[i-1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
 			else
@@ -156,7 +190,7 @@ public class MainFrame extends JFrame implements Observer {
 				{
 					labels[i][j-1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 				}
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteright" + anim + ".png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteright" + String.valueOf(anim) + ".png")));
 			}
 		}
 		else if(msg.startsWith("Bomba"))
@@ -167,8 +201,9 @@ public class MainFrame extends JFrame implements Observer {
 			
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitewithbomb1.png")));
 		}
-		else if(msg.startsWith("Dead"))
+		else if(msg.startsWith("Dead") && !finished)
 		{
+			finished = true;
 			String[] split = msg.split(",");
 			int i = Integer.valueOf(split[1]);
 			int j = Integer.valueOf(split[2]);
