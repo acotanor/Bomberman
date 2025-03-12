@@ -1,17 +1,13 @@
 package observer;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Graphics;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
-import javax.swing.*;
 import java.awt.event.*;
 import java.util.Observer;
 import java.util.Observable;
@@ -130,29 +126,37 @@ public class MainFrame extends JFrame implements Observer {
 			int i = Integer.valueOf(split[1]);
 			int j = Integer.valueOf(split[2]);
 			String direccion = split[3];
+			String anim = split[4];
+			boolean hayBomba = Boolean.valueOf(split[5]);
+			
+			String icono ="";
+			if(hayBomba) 
+			{
+				icono = "/Imgs/bomb1.png";
+			}
 			
 			if(direccion.equals("Izquierda"))
 			{
-				labels[i][j+1].setIcon(new ImageIcon());
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteleft1.png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteleft" + anim + ".png")));
+				labels[i][j+1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
 			else if(direccion.equals("Arriba"))
 			{
-				labels[i+1][j].setIcon(new ImageIcon());
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteup1.png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteup" + anim + ".png")));
+				labels[i+1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
 			else if(direccion.equals("Abajo"))
 			{
-				labels[i-1][j].setIcon(new ImageIcon());
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitedown1.png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitedown" + anim + ".png")));
+				labels[i-1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
 			else
 			{
 				if(direccion.equals("Derecha"))
 				{
-					labels[i][j-1].setIcon(new ImageIcon());
+					labels[i][j-1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 				}
-				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteright1.png")));
+				labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteright" + anim + ".png")));
 			}
 		}
 		else if(msg.startsWith("Bomba"))
@@ -163,16 +167,19 @@ public class MainFrame extends JFrame implements Observer {
 			
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitewithbomb1.png")));
 		}
+		else if(msg.startsWith("Dead"))
+		{
+			String[] split = msg.split(",");
+			int i = Integer.valueOf(split[1]);
+			int j = Integer.valueOf(split[2]);
+			
+			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/onFire1.png")));
+			
+			Dead_Window jf = new Dead_Window();
+			jf.setVisible(true);
+		}
 	}
 
-    private Controlador getControlador() {
-		if (controlador == null) 
-		{
-			controlador = new Controlador();
-		}
-		return controlador;
-	}
-    
     private class Controlador implements ActionListener 
     {
 		@Override
@@ -184,7 +191,7 @@ public class MainFrame extends JFrame implements Observer {
 		public void iniciar()
 		{
 			observable.MatrizBloques.getMB().inicializarPantallaClasica();
-			observable.Bomberman.getBom().notificarPosicion("Inicio");
+			observable.Bomberman.getBom().notificarPosicion("Inicio",false);
 		}
 		
 		public void moverIzquierda()
