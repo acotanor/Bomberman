@@ -6,6 +6,7 @@ public class Bomba
 {
 	private Timer timer = null;
 	private int[] coordenadas;
+	private Bomba b = this;
 	
 	public Bomba(int pI,int pJ)
 	{
@@ -14,7 +15,7 @@ public class Bomba
 			public void run() 
 			{
 				MatrizBloques.getMB().arder(pI, pJ);
-				Bomberman.getBom().eliminarBomba();
+				Bomberman.getBom().eliminarBomba(b);
 				timer.cancel();
 			}		
 		};

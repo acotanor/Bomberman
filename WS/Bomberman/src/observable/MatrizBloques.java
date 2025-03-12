@@ -1,7 +1,6 @@
 package observable;
 import java.util.Observable;
 import java.util.Random;
-import java.util.Observer;
 
 public class MatrizBloques extends Observable
 {
@@ -171,6 +170,13 @@ public class MatrizBloques extends Observable
 	{
 		matriz[pI][pJ] = new BloqueVacio();
 		notificarBloque(pI,pJ,"BloqueVacio");
+	}
+	
+	//Manda el mensaje a la vista para que cambie el sprite de la explosion
+	public void cambiarExplosion(int pI, int pJ, int anim)
+	{
+		setChanged();
+		notifyObservers("BloqueArdiendoA," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + String.valueOf(anim));
 	}
 	
 	//Notifica el tipo del bloque de la fila y la columna j a la vista

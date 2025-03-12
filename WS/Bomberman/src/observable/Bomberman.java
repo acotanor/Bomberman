@@ -1,4 +1,6 @@
 package observable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,14 +11,13 @@ public class Bomberman extends Observable
 	private int[] coordenadas;
 	private boolean blanco;
 	private boolean vivo;
-	private Bomba bomba;
+	private ArrayList<Bomba> bombas;
 	
-	private String ultimaDir = "Derecha";
-	private int anim = 1;
 	
 	private Bomberman()
 	{
 		vivo = true;
+		bombas = new ArrayList<Bomba>();
 		coordenadas = new int[2];
 		coordenadas[0] = 0; //Fila
 		coordenadas[1] = 0; //Columna
@@ -27,17 +28,30 @@ public class Bomberman extends Observable
 		return miBom;
 	}
 	
-	//Vacia la variable bomba
-	
-	public void eliminarBomba()
+	//Elimina una bomba de la lista
+	public void eliminarBomba(Bomba b)
 	{
-		bomba = null;
+		bombas.remove(b);
 	}
 	
-	
+	//Verifica si en la casilla actual hay una bomba colocada
 	private boolean verificarBomba()
 	{
-		return (bomba!=null && bomba.tienePosicion(coordenadas[0],coordenadas[1]));
+		boolean tiene = false;
+		
+		if(!bombas.isEmpty())
+		{
+			Bomba bAct = null;
+			Iterator<Bomba> itr = bombas.iterator();
+			
+			while(itr.hasNext() && !tiene)
+			{
+				bAct = itr.next();
+				tiene = bAct.tienePosicion(coordenadas[0], coordenadas[1]);
+			}
+		}
+		
+		return tiene;
 	}
 	
 	//Si la casilla actual del bomberman esta ardiendo, el bomberman muere
@@ -56,9 +70,9 @@ public class Bomberman extends Observable
 	
 	public void soltarBomba() 
 	{
-		if(bomba==null && vivo)
+		if(vivo)
 		{
-			bomba = new Bomba(coordenadas[0], coordenadas[1]);
+			bombas.add(new Bomba(coordenadas[0], coordenadas[1]));
 			
 			setChanged();
 			notifyObservers("Bomba," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]));
@@ -122,25 +136,7 @@ public class Bomberman extends Observable
 	
 	public void notificarPosicion(String dir,boolean hayBomba)
 	{
-		if(ultimaDir.equals(dir))
-		{
-			anim++;
-			if(dir == "Abajo" && anim>4)
-			{
-				anim = 1;
-			}
-			if(anim>5)
-			{
-				anim = 1;
-			}
-		}
-		else 
-		{
-			anim = 1;
-			ultimaDir = dir;
-		}
-		
 		setChanged();
-		notifyObservers("Bomber," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]) + "," + dir + "," + String.valueOf(anim) + "," + String.valueOf(hayBomba));
+		notifyObservers("Bomber," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]) + "," + dir + "," + String.valueOf(hayBomba));
 	}
 }
