@@ -1,8 +1,11 @@
-Muerte: Dead,[Fila],[Columna]
-Posicion del bomberman: Bomber,[Fila],[Columna],[Direccion],[Animación],[Bomba]
-Bomba: Bomba,[Fila],[Columna]
+>Bloque duro:BloqueDuro,[Fila],[Columna]
+>Bloque blando:BloqueBlando,[Fila],[Columna]
+>Bloque vacio:BloqueVacio,[Fila],[Columna]
+>Bloque ardiendo s/anim:BloqueArdiendo,[Fila],[Columna]
+>Bloque ardiendo c/anim:BloqueArdiendo,[Fila],[Columna],[Animación]
 
-Bloque duro:BloqueDuro,[Fila],[Columna]
-Bloque blando:BloqueBlando,[Fila],[Columna]
-Bloque vacio:BloqueVacio,[Fila],[Columna]
-Bloque ardiendo:BloqueArdiendo,[Fila],[Columna]
+>Posicion del bomberman: Bomber,[Fila],[Columna],[Direccion],[Bomba]
+
+>Bomba: Bomba,[Fila],[Columna]
+
+>Muerte: Dead,[Fila],[Columna]
