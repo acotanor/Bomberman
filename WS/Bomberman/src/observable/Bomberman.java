@@ -2,17 +2,14 @@ package observable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
-import java.util.Observer;
 
 public class Bomberman extends Observable
 {
 	private static Bomberman miBom = new Bomberman();
 	
 	private int[] coordenadas;
-	private boolean blanco;
 	private boolean vivo;
 	private ArrayList<Bomba> bombas;
-	
 	
 	private Bomberman()
 	{
@@ -28,6 +25,18 @@ public class Bomberman extends Observable
 		return miBom;
 	}
 	
+	//Crea una Bomba con las coordenadas actuales del bomberman 
+	public void soltarBomba() 
+	{
+		if(vivo)
+		{
+			bombas.add(new Bomba(coordenadas[0], coordenadas[1]));
+				
+			setChanged();
+			notifyObservers("Bomba," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]));
+		}
+	}
+		
 	//Elimina una bomba de la lista
 	public void eliminarBomba(Bomba b)
 	{
@@ -55,7 +64,6 @@ public class Bomberman extends Observable
 	}
 	
 	//Si la casilla actual del bomberman esta ardiendo, el bomberman muere
-	
 	public void actualizar() {
 		
 		if (MatrizBloques.getMB().estaArdiendo(coordenadas[0],coordenadas[1])) 
@@ -66,21 +74,7 @@ public class Bomberman extends Observable
 		}
 	}
 	
-	//Crea una Bomba con las coordenadas actuales del bomberman 
-	
-	public void soltarBomba() 
-	{
-		if(vivo)
-		{
-			bombas.add(new Bomba(coordenadas[0], coordenadas[1]));
-			
-			setChanged();
-			notifyObservers("Bomba," + String.valueOf(coordenadas[0]) + "," + String.valueOf(coordenadas[1]));
-		}
-	}
-	
 	//Si la celda de arriba esta disponible, se mueve hacia arriba
-	
 	public void moverArriba() 
 	{ 
 		if (coordenadas[0] > 0 && !MatrizBloques.getMB().hayBloque(coordenadas[0]-1,coordenadas[1]) && vivo) 
@@ -93,7 +87,6 @@ public class Bomberman extends Observable
 	}
 	
 	//Si la celda de abajo esta disponible, se mueve hacia abajo
-	
 	public void moverAbajo() 
 	{
 		if (coordenadas[0] < 10 && !MatrizBloques.getMB().hayBloque(coordenadas[0]+1,coordenadas[1]) && vivo) 
@@ -106,7 +99,6 @@ public class Bomberman extends Observable
 	}
 	
 	//Si la celda de la izquierda esta disponible, se mueve hacia la izquierda
-	
 	public void moverIzquierda() 
 	{ 
 		if (coordenadas[1] > 0 && !MatrizBloques.getMB().hayBloque(coordenadas[0],coordenadas[1]-1) && vivo) 
@@ -119,7 +111,6 @@ public class Bomberman extends Observable
 	}
 	
 	//Si la celda de la derecha esta disponible, se mueve hacia la derecha
-	
 	public void moverDerecha() 
 	{
 		if (coordenadas[1] < 16 && !MatrizBloques.getMB().hayBloque(coordenadas[0],coordenadas[1]+1) && vivo) 
@@ -133,7 +124,6 @@ public class Bomberman extends Observable
 	}
 	
 	//Notifica la posicion y la direccion a la vista
-	
 	public void notificarPosicion(String dir,boolean hayBomba)
 	{
 		setChanged();

@@ -47,7 +47,7 @@ public class MatrizBloques extends Observable
 	//Genera bloques blandos y vacios en las casillas no asignadas
 	private void generarBloquesVaciosYBlandos()
 	{
-		//Si no hay una casilla, se genera aleatoriamente un bloque vacio o uno blando, menos en las coords. iniciales, donde se genera uno vacío sí o sí
+		//Si no hay una casilla, se genera aleatoriamente un bloque vacio o uno blando, menos en las coords. iniciales, donde se genera uno vacio
 		Random r = new Random();
 		for (int i=0;i<11;i++)
 		{
@@ -79,39 +79,6 @@ public class MatrizBloques extends Observable
 					}
 				}
 			}
-		}
-	}
-
-	//Metodo para debug: Imprime la matriz de bloques en la consola
-	private void imprimirMatriz() 
-	{
-		//E:Error V:Vacio B:Blando D:Duro
-		for(int i=0;i<11;i++)
-		{
-			for(int j=0;j<17;j++)
-			{
-				if(matriz[i][j] == null)
-				{
-					System.out.print("E ");
-				}
-				else if (matriz[i][j] instanceof BloqueVacio)
-				{
-					System.out.print("V ");
-				}
-				else if (matriz[i][j] instanceof BloqueBlando)
-				{
-					System.out.print("B ");
-				}
-				else if (matriz[i][j] instanceof BloqueDuro)
-				{
-					System.out.print("D ");
-				}
-				else 
-				{
-					System.out.print("A ");
-				}
-			}
-			System.out.println();
 		}
 	}
 
@@ -161,8 +128,6 @@ public class MatrizBloques extends Observable
 			matriz[pI][pJ+1] = new BloqueArdiendo(pI,pJ+1);
 			notificarBloque(pI,pJ+1,"BloqueArdiendo");
 		}
-		
-		Bomberman.getBom().actualizar();
 	}
 	
 	//El bloque de la fila pI y la columna pJ pasa de ser un bloque ardiendo a un bloque vacio
@@ -179,12 +144,11 @@ public class MatrizBloques extends Observable
 		notifyObservers("BloqueArdiendoA," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + String.valueOf(anim));
 	}
 	
-	//Notifica el tipo del bloque de la fila y la columna j a la vista
+	//Notifica el tipo del bloque de la fila i y la columna j a la vista
 	private void notificarBloque(int i, int j, String tipo)
 	{
 		setChanged();
 		notifyObservers(tipo + "," + String.valueOf(i) + "," + String.valueOf(j));
 	}
-	
 	
 }

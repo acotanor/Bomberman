@@ -16,6 +16,7 @@ public class Bomba
 			{
 				MatrizBloques.getMB().arder(pI, pJ);
 				Bomberman.getBom().eliminarBomba(b);
+				Bomberman.getBom().actualizar();
 				timer.cancel();
 			}		
 		};
