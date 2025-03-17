@@ -46,7 +46,6 @@ public class MainFrame extends JFrame implements Observer {
     	observable.MatrizBloques.getMB().addObserver(this);
     	observable.Bomberman.getBom().addObserver(this);
     	
-    	controlador.inicializarListener();
     	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 450);
@@ -77,7 +76,6 @@ public class MainFrame extends JFrame implements Observer {
             }
         }
         
-        controlador.iniciar();
     }
 	
 	//Se llama a un metodo que actualiza la vista en funcion del argumento recibido
@@ -210,8 +208,20 @@ public class MainFrame extends JFrame implements Observer {
 		jf.setVisible(true);
     }
     
+    
     private class Controlador 
     {
+    	public Controlador()
+    	{
+    		addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowOpened(WindowEvent e) {
+                    inicializarListener();
+                    iniciar();
+                }
+            });
+    	}
+    	
 		public void inicializarListener()
 	    {
 	    	addKeyListener(new KeyAdapter() {
