@@ -43,12 +43,14 @@ public class MainFrame extends JFrame implements Observer {
     {
     	controlador = getControlador();
     	addKeyListener(controlador);
+    	addWindowListener(controlador);
     	
     	observable.MatrizBloques.getMB().addObserver(this);
     	observable.Bomberman.getBom().addObserver(this);
     	
     	inicializarVista();
     }
+	
 	
 	private void inicializarVista()
 	{
@@ -220,26 +222,8 @@ public class MainFrame extends JFrame implements Observer {
 		return controlador;
 	}
     
-    private class Controlador implements KeyListener
+    private class Controlador extends WindowAdapter implements KeyListener 
     {
-    	public Controlador()
-    	{
-    		addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowOpened(WindowEvent e) 
-                {
-                    iniciarPantallaClasica();
-                }
-            });
-    	}
-    	
-		
-		public void iniciarPantallaClasica()
-		{
-			observable.MatrizBloques.getMB().inicializarPantallaClasica();
-			observable.Bomberman.getBom().notificarPosicion("Inicio",false);
-		}
-
 		@Override
 		public void keyTyped(KeyEvent e) {}
 
@@ -272,5 +256,12 @@ public class MainFrame extends JFrame implements Observer {
 
 		@Override
 		public void keyReleased(KeyEvent e) {}
-	}
+	
+		@Override
+        public void windowOpened(WindowEvent e) 
+         {
+			observable.MatrizBloques.getMB().inicializarPantallaClasica();
+			observable.Bomberman.getBom().notificarPosicion("Inicio",false);
+         }
+    }
 }
