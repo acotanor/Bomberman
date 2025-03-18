@@ -41,13 +41,18 @@ public class MainFrame extends JFrame implements Observer {
 
 	public MainFrame() 
     {
-    	controlador = new Controlador();
+    	controlador = getControlador();
+    	addKeyListener(controlador);
     	
     	observable.MatrizBloques.getMB().addObserver(this);
     	observable.Bomberman.getBom().addObserver(this);
     	
-    	
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	inicializarVista();
+    }
+	
+	private void inicializarVista()
+	{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 450);
         
         contentPane = new JPanel(){
@@ -75,8 +80,7 @@ public class MainFrame extends JFrame implements Observer {
             	contentPane.add(labels[i][j]);
             }
         }
-        
-    }
+	}
 	
 	//Se llama a un metodo que actualiza la vista en funcion del argumento recibido
     @Override
@@ -118,7 +122,7 @@ public class MainFrame extends JFrame implements Observer {
 		}
 		else if(msg.startsWith("BloqueVacio"))
 		{
-			labels[i][j].setIcon(new ImageIcon());
+			labels[i][j].setIcon(null);
 		}
 		else if(msg.startsWith("BloqueArdiendo"))
 		{
@@ -132,7 +136,7 @@ public class MainFrame extends JFrame implements Observer {
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/kaBomb" + animacion + ".png")));
 		}
     }
-    
+
     private void actualizarBomber(String msg)
     {
     	String[] split = msg.split(",");
@@ -208,56 +212,65 @@ public class MainFrame extends JFrame implements Observer {
 		jf.setVisible(true);
     }
     
+    private Controlador getControlador() {
+		if (controlador == null) 
+		{
+			controlador = new Controlador();
+		}
+		return controlador;
+	}
     
-    private class Controlador 
+    private class Controlador implements KeyListener
     {
     	public Controlador()
     	{
     		addWindowListener(new WindowAdapter() {
                 @Override
-                public void windowOpened(WindowEvent e) {
-                    inicializarListener();
-                    iniciar();
+                public void windowOpened(WindowEvent e) 
+                {
+                    iniciarPantallaClasica();
                 }
             });
     	}
     	
-		public void inicializarListener()
-	    {
-	    	addKeyListener(new KeyAdapter() {
-	            @Override
-	            public void keyPressed(KeyEvent e) {
-	            	
-	                int keyCode = e.getKeyCode();
-	                
-	                if (keyCode == KeyEvent.VK_UP) 
-	                {
-	                	observable.Bomberman.getBom().moverArriba();
-	                } 
-	                else if (keyCode == KeyEvent.VK_DOWN) 
-	                {
-	                	observable.Bomberman.getBom().moverAbajo();
-	                } 
-	                else if (keyCode == KeyEvent.VK_LEFT) 
-	                {
-	                	observable.Bomberman.getBom().moverIzquierda();
-	                } 
-	                else if (keyCode == KeyEvent.VK_RIGHT) 
-	                {
-	                	observable.Bomberman.getBom().moverDerecha();
-	                }
-	                else if (keyCode == KeyEvent.VK_B) 
-	                {
-	                	observable.Bomberman.getBom().soltarBomba();
-	                }
-	            }
-	        });
-	    }
 		
-		public void iniciar()
+		public void iniciarPantallaClasica()
 		{
 			observable.MatrizBloques.getMB().inicializarPantallaClasica();
 			observable.Bomberman.getBom().notificarPosicion("Inicio",false);
 		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {}
+
+		@Override
+		public void keyPressed(KeyEvent e) 
+		{
+			int keyCode = e.getKeyCode();
+            
+            if (keyCode == KeyEvent.VK_UP) 
+            {
+            	observable.Bomberman.getBom().moverArriba();
+            } 
+            else if (keyCode == KeyEvent.VK_DOWN) 
+            {
+            	observable.Bomberman.getBom().moverAbajo();
+            } 
+            else if (keyCode == KeyEvent.VK_LEFT) 
+            {
+            	observable.Bomberman.getBom().moverIzquierda();
+            } 
+            else if (keyCode == KeyEvent.VK_RIGHT) 
+            {
+            	observable.Bomberman.getBom().moverDerecha();
+            }
+            else if (keyCode == KeyEvent.VK_B) 
+            {
+            	observable.Bomberman.getBom().soltarBomba();
+            }
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {}
 	}
 }
