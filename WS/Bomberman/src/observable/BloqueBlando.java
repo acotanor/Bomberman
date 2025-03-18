@@ -6,4 +6,9 @@ public class BloqueBlando extends Bloque
 	{
 		
 	}
+	
+	@Override
+	public String getType() {
+		return "BloqueBlando";
+	}
 }

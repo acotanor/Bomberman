@@ -85,13 +85,13 @@ public class MatrizBloques extends Observable
 	//Indica si en la fila pI y la columna pJ hay un bloque ardiendo
 	public boolean estaArdiendo(int pI, int pJ)
 	{
-		return (matriz[pI][pJ] instanceof BloqueArdiendo);
+		return (matriz[pI][pJ].getType()=="BloqueArdiendo");
 	}
 
 	//Indica si en la fila pI y la columna pJ hay un bloque que impide el paso
 	public boolean hayBloque(int pI, int pJ)
 	{
-		return (matriz[pI][pJ] instanceof BloqueBlando || matriz[pI][pJ] instanceof BloqueDuro);
+		return (matriz[pI][pJ].getType()=="BloqueBlando"|| matriz[pI][pJ].getType()=="BloqueDuro");
 	}
 	
 	//El bloque de la fila pI y la columna pJ y los de su alrededor pasan a ser un bloque ardiendo
@@ -102,28 +102,28 @@ public class MatrizBloques extends Observable
 		notificarBloque(pI,pJ,"BloqueArdiendo");
 		
 		//Bloque de arriba
-		if(pI>0 && !(matriz[pI-1][pJ] instanceof BloqueDuro))
+		if(pI>0 && !(matriz[pI-1][pJ].getType()=="BloqueDuro"))
 		{
 			matriz[pI-1][pJ] = new BloqueArdiendo(pI-1,pJ);
 			notificarBloque(pI-1,pJ,"BloqueArdiendo");
 		}
 		
 		//Bloque de debajo
-		if(pI<10 && !(matriz[pI+1][pJ] instanceof BloqueDuro))
+		if(pI<10 && !(matriz[pI+1][pJ].getType()=="BloqueDuro"))
 		{
 			matriz[pI+1][pJ] = new BloqueArdiendo(pI+1,pJ);
 			notificarBloque(pI+1,pJ,"BloqueArdiendo");
 		}
 		
 		//Bloque de la izquierda
-		if(pJ>0 && !(matriz[pI][pJ-1] instanceof BloqueDuro))
+		if(pJ>0 && !(matriz[pI][pJ-1].getType()=="BloqueDuro"))
 		{
 			matriz[pI][pJ-1] = new BloqueArdiendo(pI,pJ-1);
 			notificarBloque(pI,pJ-1,"BloqueArdiendo");
 		}
 		
 		//Bloque de la derecha
-		if(pJ<16 && !(matriz[pI][pJ+1] instanceof BloqueDuro))
+		if(pJ<16 && !(matriz[pI][pJ+1].getType()=="BloqueDuro"))
 		{
 			matriz[pI][pJ+1] = new BloqueArdiendo(pI,pJ+1);
 			notificarBloque(pI,pJ+1,"BloqueArdiendo");

@@ -28,4 +28,9 @@ public class BloqueArdiendo extends Bloque
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 400);
 	}
+	
+	@Override
+	public String getType() {
+		return "BloqueArdiendo";
+	}
 }
