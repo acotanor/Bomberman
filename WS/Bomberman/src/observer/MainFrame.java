@@ -19,7 +19,7 @@ public class MainFrame extends JFrame implements Observer {
     private JPanel contentPane;
     private JLabel[][] labels = new JLabel[11][17];
     
-    private Controlador controlador;
+    private GameController controlador;
     
     private String ultimaDir="";
     private int anim=1;
@@ -214,54 +214,11 @@ public class MainFrame extends JFrame implements Observer {
 		jf.setVisible(true);
     }
     
-    private Controlador getControlador() {
+    private GameController getControlador() {
 		if (controlador == null) 
 		{
-			controlador = new Controlador();
+			controlador = new GameController();
 		}
 		return controlador;
 	}
-    
-    private class Controlador extends WindowAdapter implements KeyListener 
-    {
-		@Override
-		public void keyTyped(KeyEvent e) {}
-
-		@Override
-		public void keyPressed(KeyEvent e) 
-		{
-			int keyCode = e.getKeyCode();
-            
-            if (keyCode == KeyEvent.VK_UP) 
-            {
-            	observable.Bomberman.getBom().moverArriba();
-            } 
-            else if (keyCode == KeyEvent.VK_DOWN) 
-            {
-            	observable.Bomberman.getBom().moverAbajo();
-            } 
-            else if (keyCode == KeyEvent.VK_LEFT) 
-            {
-            	observable.Bomberman.getBom().moverIzquierda();
-            } 
-            else if (keyCode == KeyEvent.VK_RIGHT) 
-            {
-            	observable.Bomberman.getBom().moverDerecha();
-            }
-            else if (keyCode == KeyEvent.VK_B) 
-            {
-            	observable.Bomberman.getBom().soltarBomba();
-            }
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {}
-	
-		@Override
-        public void windowOpened(WindowEvent e) 
-         {
-			observable.MatrizBloques.getMB().inicializarPantallaClasica();
-			observable.Bomberman.getBom().notificarPosicion("Inicio",false);
-         }
-    }
 }
