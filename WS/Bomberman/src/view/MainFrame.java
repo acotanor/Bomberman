@@ -1,4 +1,4 @@
-package observer;
+package view;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.GameController;
+
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.*;
@@ -26,7 +29,7 @@ public class MainFrame extends JFrame implements Observer {
     
     private boolean finished = false;
     
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -37,22 +40,22 @@ public class MainFrame extends JFrame implements Observer {
                 }
             }
         });
-    }
+    }/*
 
-	public MainFrame() 
+	/*public MainFrame() 
     {
     	controlador = getControlador();
     	addKeyListener(controlador);
     	addWindowListener(controlador);
     	
-    	observable.MatrizBloques.getMB().addObserver(this);
-    	observable.Bomberman.getBom().addObserver(this);
+    	model.MatrizBloques.getMB().addObserver(this);
+    	model.Bomberman.getBom().addObserver(this);
     	
     	inicializarVista();
-    }
+    }*/
 	
 	
-	private void inicializarVista()
+	public void inicializarVista()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 450);
@@ -214,11 +217,11 @@ public class MainFrame extends JFrame implements Observer {
 		jf.setVisible(true);
     }
     
-    private GameController getControlador() {
+    /*private GameController getControlador() {
 		if (controlador == null) 
 		{
 			controlador = new GameController();
 		}
 		return controlador;
-	}
+	}*/
 }

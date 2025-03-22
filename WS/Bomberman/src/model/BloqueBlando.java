@@ -1,4 +1,4 @@
-package observable;
+package model;
 
 public class BloqueBlando extends Bloque 
 {
