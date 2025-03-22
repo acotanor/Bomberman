@@ -1,4 +1,4 @@
-package observable;
+package model;
 
 public abstract class Bloque
 {

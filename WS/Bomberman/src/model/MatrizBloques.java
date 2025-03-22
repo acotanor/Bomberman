@@ -1,4 +1,4 @@
-package observable;
+package model;
 import java.util.Observable;
 import java.util.Random;
 
