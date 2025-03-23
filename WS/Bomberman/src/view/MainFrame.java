@@ -22,38 +22,9 @@ public class MainFrame extends JFrame implements Observer {
     private JPanel contentPane;
     private JLabel[][] labels = new JLabel[11][17];
     
-    private GameController controlador;
-    
     private String ultimaDir="";
     private int anim=1;
-    
-    private boolean finished = false;
-    
-    /*public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    MainFrame frame = new MainFrame();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }/*
-
-	/*public MainFrame() 
-    {
-    	controlador = getControlador();
-    	addKeyListener(controlador);
-    	addWindowListener(controlador);
-    	
-    	model.MatrizBloques.getMB().addObserver(this);
-    	model.Bomberman.getBom().addObserver(this);
-    	
-    	inicializarVista();
-    }*/
-	
+    private boolean finished = false;	
 	
 	public void inicializarVista()
 	{
@@ -216,12 +187,4 @@ public class MainFrame extends JFrame implements Observer {
 		Dead_Window jf = new Dead_Window();
 		jf.setVisible(true);
     }
-    
-    /*private GameController getControlador() {
-		if (controlador == null) 
-		{
-			controlador = new GameController();
-		}
-		return controlador;
-	}*/
 }
