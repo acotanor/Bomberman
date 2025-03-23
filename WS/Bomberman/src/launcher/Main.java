@@ -30,5 +30,10 @@ public class Main {
 
         view.inicializarVista();
         view.setVisible(true);
+        
+        //Esto ultimo logra que se mantenga el tamaño correcto de los sprites, pero es un apaño cutre.
+        //Mirad el commit de "Reescalamiento de bloques" para mas info
+        view.resolucionModificada();
+        //si al final no lo usamos simplemente se comenta esta linea, no esta mal tener este codigo ahi
     }
 }

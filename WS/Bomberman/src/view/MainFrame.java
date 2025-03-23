@@ -1,5 +1,6 @@
 package view;
 
+import javax.swing.Timer;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import controller.GameController;
 
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Label;
 import java.awt.event.*;
 import java.util.Observer;
 import java.util.Observable;
@@ -21,10 +23,47 @@ public class MainFrame extends JFrame implements Observer {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel[][] labels = new JLabel[11][17];
+    private int labelWidth;
+    private int labelHeight;
     
     private String ultimaDir="";
     private int anim=1;
-    private boolean finished = false;	
+    private boolean finished = false;
+    
+    Timer timer0 = new Timer(500, e -> resolucionModificada());//Opcional(Reescaling)
+    	
+    public void resolucionModificada() { //Opcional(Reescaling)
+    	//Comprobamos si la resolucion ha sido modificada y llamamos o no a reescalar
+    	if (!(labels[0][0].getWidth() == labelWidth && labelHeight == labels[0][0].getHeight())) {
+    		labelWidth = labels[0][0].getWidth();
+    		labelHeight = labels[0][0].getHeight();
+    		reescalarTodosLosIconos();  // method to re-apply icons to all labels
+    	}
+    	timer0.start();
+    }
+    
+    private void reescalarTodosLosIconos() {//Opcional(Reescaling)
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 17; j++) {
+                reescalarIcono(labels[i][j]);
+            }
+        }
+    }
+    
+    private void reescalarIcono(JLabel label) {//Opcional(Reescaling)
+        ImageIcon icono = (ImageIcon )label.getIcon();
+
+        if (!(icono == null)) {
+            //ImageIcon imageIcon = (ImageIcon) icono;
+            Image img = icono.getImage();
+
+            // Avoid invalid dimensions
+            if (true) {
+                Image scaled = img.getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH);
+                label.setIcon(new ImageIcon(scaled));
+            }
+        }
+    }
 	
 	public void inicializarVista()
 	{
@@ -56,6 +95,8 @@ public class MainFrame extends JFrame implements Observer {
             	contentPane.add(labels[i][j]);
             }
         }
+        labelWidth = labels[0][0].getWidth();
+        labelHeight = labels[0][0].getHeight();
 	}
 	
 	//Se llama a un metodo que actualiza la vista en funcion del argumento recibido
@@ -81,6 +122,16 @@ public class MainFrame extends JFrame implements Observer {
 			actualizarMuerte(msg);
 		}
 	}
+    
+    private void setScaledIcon(JLabel label, String resourcePath) {
+    	
+    	//Es un apaño para que el .png de los bloques este ajustado con respecto a la resolucion de la ventana
+    	//System.out.println("resourcePath:");
+    	//System.out.println(resourcePath);
+        ImageIcon icon = new ImageIcon(MainFrame.class.getResource(resourcePath));
+        Image scaled = icon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+        label.setIcon(new ImageIcon(scaled));
+    }
     
     private void actualizarBloque(String msg)
     {
@@ -145,16 +196,19 @@ public class MainFrame extends JFrame implements Observer {
 		{
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteleft" + String.valueOf(anim) + ".png")));
 			labels[i][j+1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
+			//setScaledIcon(labels[i][j],("/Imgs/whiteleft" + String.valueOf(anim) + ".png"));
 		}
 		else if(direccion.equals("Arriba"))
 		{
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteup" + String.valueOf(anim) + ".png")));
 			labels[i+1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
+			//setScaledIcon(labels[i][j],"/Imgs/whiteup" + String.valueOf(anim) + ".png");
 		}
 		else if(direccion.equals("Abajo"))
 		{
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitedown" + String.valueOf(anim) + ".png")));
 			labels[i-1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
+			//setScaledIcon(labels[i][j],"/Imgs/whitedown" + String.valueOf(anim) + ".png");
 		}
 		else
 		{
@@ -162,6 +216,7 @@ public class MainFrame extends JFrame implements Observer {
 			{
 				labels[i][j-1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
+			//setScaledIcon(labels[i][j],"/Imgs/whiteright" + String.valueOf(anim) + ".png");
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteright" + String.valueOf(anim) + ".png")));
 		}
     }
