@@ -9,7 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controller.GameController;
+//import controller.GameController;
+import model.Bomberman;
+import model.MatrizBloques;
 
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -31,13 +33,26 @@ public class MainFrame extends JFrame implements Observer {
     private boolean finished = false;
     
     Timer timer0 = new Timer(500, e -> resolucionModificada());//Opcional(Reescaling)
+    
+    public MainFrame(Bomberman bbman, MatrizBloques matriz) {
+    	GameController controller = new GameController(bbman);
+    	addKeyListener(controller);
+        addWindowListener(controller);
+
+        bbman.addObserver(this);
+        matriz.addObserver(this);
+        inicializarVista();
+        setVisible(true);
+        
+        resolucionModificada();
+    }
     	
     public void resolucionModificada() { //Opcional(Reescaling)
     	//Comprobamos si la resolucion ha sido modificada y llamamos o no a reescalar
     	if (!(labels[0][0].getWidth() == labelWidth && labelHeight == labels[0][0].getHeight())) {
     		labelWidth = labels[0][0].getWidth();
     		labelHeight = labels[0][0].getHeight();
-    		reescalarTodosLosIconos();  // method to re-apply icons to all labels
+    		reescalarTodosLosIconos();  
     	}
     	timer0.start();
     }
@@ -241,5 +256,51 @@ public class MainFrame extends JFrame implements Observer {
 		
 		Dead_Window jf = new Dead_Window();
 		jf.setVisible(true);
+    }
+    private class GameController extends WindowAdapter implements KeyListener {
+    	Bomberman bombman;
+    	public GameController(Bomberman player) {
+    		bombman = player;
+    	}
+    	
+    	@Override
+    	public void keyTyped(KeyEvent e) {}
+
+    	@Override
+    	public void keyPressed(KeyEvent e) 
+    	{
+    		int keyCode = e.getKeyCode();
+            
+            if (keyCode == KeyEvent.VK_UP) 
+            {
+            	model.Bomberman.getBom().moverArriba();
+            } 
+            else if (keyCode == KeyEvent.VK_DOWN) 
+            {
+            	model.Bomberman.getBom().moverAbajo();
+            } 
+            else if (keyCode == KeyEvent.VK_LEFT) 
+            {
+            	model.Bomberman.getBom().moverIzquierda();
+            } 
+            else if (keyCode == KeyEvent.VK_RIGHT) 
+            {
+            	model.Bomberman.getBom().moverDerecha();
+            }
+            else if (keyCode == KeyEvent.VK_B) 
+            {
+            	model.Bomberman.getBom().soltarBomba();
+            }
+    	}
+
+    	@Override
+    	public void keyReleased(KeyEvent e) {}
+
+    	@Override
+        public void windowOpened(WindowEvent e) 
+         {
+    		model.MatrizBloques.getMB().inicializarPantallaClasica();
+    		model.Bomberman.getBom().notificarPosicion("Inicio",false);
+         }
     }
 }
