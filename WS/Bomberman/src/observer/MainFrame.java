@@ -7,11 +7,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import observable.MatrizBloques;
+
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.*;
 import java.util.Observer;
+import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainFrame extends JFrame implements Observer {
 
@@ -25,6 +31,8 @@ public class MainFrame extends JFrame implements Observer {
     private int anim=1;
     
     private boolean finished = false;
+    
+    private ArrayList<Timer> timers;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -41,6 +49,7 @@ public class MainFrame extends JFrame implements Observer {
 
 	public MainFrame() 
     {
+		timers = new ArrayList<Timer>();
     	controlador = getControlador();
     	addKeyListener(controlador);
     	addWindowListener(controlador);
@@ -128,14 +137,16 @@ public class MainFrame extends JFrame implements Observer {
 		}
 		else if(msg.startsWith("BloqueArdiendo"))
 		{
-			String animacion = "1";
-			
+			int animacion = 1;
 			if(msg.startsWith("BloqueArdiendoA"))
 			{
-				animacion = split[3];
+				animacion = Integer.valueOf(split[3]);
+			} 
+			else 
+			{
+				crearTimer(i,j);
 			}
-			
-			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/kaBomb" + animacion + ".png")));
+			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/kaBomb" + String.valueOf(animacion) +".png")));
 		}
     }
 
@@ -214,6 +225,30 @@ public class MainFrame extends JFrame implements Observer {
 		jf.setVisible(true);
     }
     
+    private void crearTimer(int pI, int pJ)
+    {
+    	TimerTask timerTask = new TimerTask() {
+    		int animacion = 1;
+			@Override
+			public void run() 
+			{
+				animacion++;
+				if(animacion<=5)
+				{
+					actualizarBloque("BloqueArdiendoA," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + String.valueOf(animacion));
+				}
+				else
+				{
+					MatrizBloques.getMB().dejarDeArder(pI, pJ);
+					timers.get(0).cancel();
+				}
+			}		
+		};
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 0, 400);
+		timers.add(timer);
+    }
+   
     private Controlador getControlador() {
 		if (controlador == null) 
 		{
