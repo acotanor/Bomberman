@@ -5,9 +5,9 @@ import java.util.Observable;
 
 public abstract class Bomberman extends Observable{
    	
-	private int[] coordenadas;
-	private boolean vivo;
-	private ArrayList<Bomba> bombas;
+	protected int[] coordenadas;
+	protected boolean vivo;
+	protected ArrayList<Bomba> bombas;
    
     public Bomberman(){
         vivo = true;
@@ -19,13 +19,7 @@ public abstract class Bomberman extends Observable{
 
     //Crea una Bomba con las coordenadas actuales del bomberman 
     public void soltarBomba(){
-        if(this.vivo)
-		{
-			this.bombas.add(new Bomba(this.coordenadas[0], this.coordenadas[1]));
-				
-			setChanged();
-			notifyObservers("Bomba," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
-		}
+        
     }
 
     //Elimina una bomba de la lista
