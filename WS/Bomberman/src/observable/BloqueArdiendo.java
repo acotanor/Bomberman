@@ -5,7 +5,6 @@ import java.util.TimerTask;
 public class BloqueArdiendo extends Bloque
 {
 	private Timer timer = null;
-	private int anim = 0;
 	
 	public BloqueArdiendo(int pI, int pJ)
 	{
@@ -13,20 +12,12 @@ public class BloqueArdiendo extends Bloque
 			@Override
 			public void run() 
 			{
-				anim++;
-				if(anim<=5)
-				{
-					MatrizBloques.getMB().cambiarExplosion(pI, pJ, anim);
-				}
-				else
-				{
-					MatrizBloques.getMB().dejarDeArder(pI, pJ);
-					timer.cancel();
-				}
+				MatrizBloques.getMB().dejarDeArder(pI, pJ);
+				timer.cancel();
 			}		
 		};
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 400);
+		timer.scheduleAtFixedRate(timerTask, 2400, 2400);
 	}
 	
 	@Override

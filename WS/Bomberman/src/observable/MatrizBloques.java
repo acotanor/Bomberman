@@ -137,12 +137,6 @@ public class MatrizBloques extends Observable
 		notificarBloque(pI,pJ,"BloqueVacio");
 	}
 	
-	//Manda el mensaje a la vista para que cambie el sprite de la explosion
-	public void cambiarExplosion(int pI, int pJ, int anim)
-	{
-		setChanged();
-		notifyObservers("BloqueArdiendoA," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + String.valueOf(anim));
-	}
 	
 	//Notifica el tipo del bloque de la fila i y la columna j a la vista
 	private void notificarBloque(int i, int j, String tipo)
