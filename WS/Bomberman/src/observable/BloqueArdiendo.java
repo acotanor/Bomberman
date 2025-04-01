@@ -17,7 +17,7 @@ public class BloqueArdiendo extends Bloque
 			}		
 		};
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 2400, 2400);
+		timer.scheduleAtFixedRate(timerTask, 2000, 2000);
 	}
 	
 	@Override
