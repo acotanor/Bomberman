@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 public class BombaNegro extends Bomba{
     private Timer timer = null;
+    private BombaNegro b = this;
     public BombaNegro(int pI, int pJ){
         super(pI,pJ);
     
