@@ -241,6 +241,7 @@ public class MainFrame extends JFrame implements Observer {
 				{
 					MatrizBloques.getMB().dejarDeArder(pI, pJ);
 					timers.get(0).cancel();
+					timers.remove(0);
 				}
 			}		
 		};
