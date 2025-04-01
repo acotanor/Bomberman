@@ -55,7 +55,7 @@ public class MainFrame extends JFrame implements Observer {
     	addWindowListener(controlador);
     	
     	observable.MatrizBloques.getMB().addObserver(this);
-    	observable.Bomberman.getBom().addObserver(this);
+    	observable.BombermanBlanco.getBom().addObserver(this);
     	
     	inicializarVista();
     }
@@ -270,23 +270,23 @@ public class MainFrame extends JFrame implements Observer {
             
             if (keyCode == KeyEvent.VK_UP) 
             {
-            	observable.Bomberman.getBom().moverArriba();
+            	observable.BombermanBlanco.getBom().moverArriba();
             } 
             else if (keyCode == KeyEvent.VK_DOWN) 
             {
-            	observable.Bomberman.getBom().moverAbajo();
+            	observable.BombermanBlanco.getBom().moverAbajo();
             } 
             else if (keyCode == KeyEvent.VK_LEFT) 
             {
-            	observable.Bomberman.getBom().moverIzquierda();
+            	observable.BombermanBlanco.getBom().moverIzquierda();
             } 
             else if (keyCode == KeyEvent.VK_RIGHT) 
             {
-            	observable.Bomberman.getBom().moverDerecha();
+            	observable.BombermanBlanco.getBom().moverDerecha();
             }
             else if (keyCode == KeyEvent.VK_B) 
             {
-            	observable.Bomberman.getBom().soltarBomba();
+            	observable.BombermanBlanco.getBom().soltarBomba();
             }
 		}
 
@@ -297,7 +297,7 @@ public class MainFrame extends JFrame implements Observer {
         public void windowOpened(WindowEvent e) 
          {
 			observable.MatrizBloques.getMB().inicializarPantallaClasica();
-			observable.Bomberman.getBom().notificarPosicion("Inicio",false);
+			observable.BombermanBlanco.getBom().notificarPosicion("Inicio",false);
          }
     }
 }
