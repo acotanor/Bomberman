@@ -56,6 +56,7 @@ public class MainFrame extends JFrame implements Observer {
     	
     	observable.MatrizBloques.getMB().addObserver(this);
     	observable.BombermanBlanco.getBom().addObserver(this);
+    	observable.ListaEnemigos.getLE().addObserver(this);
     	
     	inicializarVista();
     }
@@ -110,6 +111,10 @@ public class MainFrame extends JFrame implements Observer {
 		else if(msg.startsWith("Bomba"))
 		{
 			actualizarBomba(msg);
+		}
+		else if(msg.startsWith("Enemigo"))
+		{
+			actualizarEnemigo(msg);
 		}
 		else if(msg.startsWith("Dead") && !finished)
 		{
@@ -212,6 +217,35 @@ public class MainFrame extends JFrame implements Observer {
 		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitewithbomb1.png")));
     }
     
+    private void actualizarEnemigo(String msg)
+    {
+    	String[] split = msg.split(",");
+		int i = Integer.valueOf(split[1]);
+		int j = Integer.valueOf(split[2]);
+		String tipo = split[3];
+		String animacion = split[4];
+		String dir = split[5];
+		
+		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/" + tipo + String.valueOf(animacion) + ".png")));
+		
+		if (dir.equals(("Arriba")))
+		{
+			labels[i+1][j].setIcon(new ImageIcon());
+		}
+		else if (dir.equals("Abajo"))
+		{
+			labels[i-1][j].setIcon(new ImageIcon());
+		}
+		else if (dir.equals("Izquierda"))
+		{
+			labels[i][j+1].setIcon(new ImageIcon());
+		}
+		else if (dir.equals("Derecha"))
+		{
+			labels[i-1][j-1].setIcon(new ImageIcon());
+		}
+    }
+    
     private void actualizarMuerte(String msg)
     {
     	finished = true;
@@ -298,6 +332,7 @@ public class MainFrame extends JFrame implements Observer {
          {
 			observable.MatrizBloques.getMB().inicializarPantallaClasica();
 			observable.BombermanBlanco.getBom().notificarPosicion("Inicio",false);
+			observable.Facade.getFacade().iniciarPartida("");
          }
     }
 }
