@@ -1,8 +1,7 @@
 package observer;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -44,31 +43,44 @@ public class MainMenu extends JFrame {
 		contentPane.add(buttonC);
 		contentPane.add(buttonS);
 		contentPane.add(buttonE);
+		MainFrame s = new MainFrame();
+	
 		
-		setVisible(true);
+	
+		this.addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		  
+		    	MainFrame s = new MainFrame();
+				s.setVisible(true);
+		    }
+		});
+		cerrar();
 	}
 	
 	private JButton getButtonC()
 	{
 		JButton b = new JButton("Pantalla clasica");
-		b.addActionListener(getControlador());
+		//b.addActionListener(getControlador());
 		return b;
 	}
 	
 	private JButton getButtonS()
 	{
 		JButton b = new JButton("Pantalla soft");
-		b.addActionListener(getControlador());
+	//	b.addActionListener(getControlador());
 		return b;
 	}
 	
 	private JButton getButtonE()
 	{
 		JButton b = new JButton("Pantalla vacia");
-		b.addActionListener(getControlador());
+		//b.addActionListener(getControlador());
 		return b;
 	}
-	
+	private void cerrar() {
+		this.setVisible(false);
+	}
  	private Controlador getControlador()
 	{
  		if(controlador == null)
@@ -77,13 +89,28 @@ public class MainMenu extends JFrame {
  		}
 		return controlador;
 	}
-	
-	private class Controlador implements ActionListener
+
+ 	 private class Controlador extends WindowAdapter implements KeyListener 
 	{
 		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			e.getActionCommand();
+		public void windowClosing(WindowEvent e) {
+			MainFrame s = new MainFrame();
+			s.setVisible(true);
+		}
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }
