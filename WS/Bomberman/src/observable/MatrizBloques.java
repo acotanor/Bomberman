@@ -82,6 +82,25 @@ public class MatrizBloques extends Observable
 		}
 	}
 
+	//Indica cuantos bloques vacios hay en el tablero
+	public int cuantosBloquesVacios()
+	{
+		int x = 0;
+		
+		for(int i = 0; i < 11 ; i++)
+		{
+			for (int j = 0; j < 17; j++)
+			{
+				if(!hayBloque(i,j))
+				{
+					x++;
+				}
+			}
+		}
+		
+		return x;
+	}
+	
 	//Indica si en la fila pI y la columna pJ hay un bloque ardiendo
 	public boolean estaArdiendo(int pI, int pJ)
 	{
@@ -136,7 +155,6 @@ public class MatrizBloques extends Observable
 		matriz[pI][pJ] = new BloqueVacio();
 		notificarBloque(pI,pJ,"BloqueVacio");
 	}
-	
 	
 	//Notifica el tipo del bloque de la fila i y la columna j a la vista
 	private void notificarBloque(int i, int j, String tipo)

@@ -14,7 +14,7 @@ public abstract class Bomberman extends Observable{
         bombas = new ArrayList<Bomba>();
         coordenadas = new int[2];
         coordenadas[0] = 0;
-        coordenadas[1] = 1;
+        coordenadas[1] = 0;
     }
 
     //Crea una Bomba con las coordenadas actuales del bomberman 
