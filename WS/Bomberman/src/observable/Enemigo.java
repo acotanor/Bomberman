@@ -9,12 +9,14 @@ public class Enemigo
 {
 	private Timer timer;
 	private int[] coordenadas;
+	private String tipo;
 	
-	public Enemigo(int i, int j)
+	public Enemigo(int i, int j, String pTipo)
 	{
 		coordenadas = new int[2];
 		coordenadas[0] = i;
 		coordenadas[1] = j;
+		tipo = pTipo;
 		
 		TimerTask timerTask = new TimerTask() {
 			@Override
@@ -46,6 +48,11 @@ public class Enemigo
 		else if(dir.equals("Abajo"))
 		{
 			coordenadas[0]++;
+		}
+		
+		if(!dir.equals(""))
+		{
+			ListaEnemigos.getLE().notificarEnemigo(coordenadas[0], coordenadas[1], tipo,dir);
 		}
 	}
 	

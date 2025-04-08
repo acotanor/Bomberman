@@ -15,7 +15,7 @@ public class Facade
 		return miFacade;
 	}
 
-	public void iniciarPartida()
+	public void iniciarPartida(String tipo)
 	{
 		generarEnemigos();
 	}
@@ -36,7 +36,6 @@ public class Facade
 			{
 				ListaEnemigos.getLE().generarEnemigo(fila, columna);
 				i++;
-				System.out.println("Fila: " + String.valueOf(fila) + " Columna: " + String.valueOf(columna));
 			}
 		}
 	}
