@@ -29,6 +29,7 @@ public class MainFrame extends JFrame implements Observer {
     
     private String ultimaDir="";
     private int anim=1;
+    private String ultimaAnimBomber="";
     
     private boolean finished = false;
     
@@ -108,9 +109,17 @@ public class MainFrame extends JFrame implements Observer {
 		{
 			actualizarBomber(msg);
 		}
+		else if(msg.startsWith("PeriodoBomber"))
+		{
+			actualizacionPeriodicaBomber(msg);
+		}
 		else if(msg.startsWith("Bomba"))
 		{
 			actualizarBomba(msg);
+		}
+		else if(msg.startsWith("PeriodoBomba"))
+		{
+			actualizacionPeriodicaBomba(msg);
 		}
 		else if(msg.startsWith("Enemigo"))
 		{
@@ -185,21 +194,25 @@ public class MainFrame extends JFrame implements Observer {
 		
 		if(direccion.equals("Izquierda"))
 		{
+			ultimaAnimBomber = "/Imgs/whiteleft" + String.valueOf(anim) + ".png";
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteleft" + String.valueOf(anim) + ".png")));
 			labels[i][j+1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 		}
 		else if(direccion.equals("Arriba"))
 		{
+			ultimaAnimBomber = "/Imgs/whiteup" + String.valueOf(anim) + ".png";
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteup" + String.valueOf(anim) + ".png")));
 			labels[i+1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 		}
 		else if(direccion.equals("Abajo"))
 		{
+			ultimaAnimBomber = "/Imgs/whitedown" + String.valueOf(anim) + ".png";
 			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitedown" + String.valueOf(anim) + ".png")));
 			labels[i-1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 		}
 		else
 		{
+			ultimaAnimBomber = "/Imgs/whiteright" + String.valueOf(anim) + ".png";
 			if(direccion.equals("Derecha"))
 			{
 				labels[i][j-1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
@@ -208,13 +221,32 @@ public class MainFrame extends JFrame implements Observer {
 		}
     }
     
+    private void actualizacionPeriodicaBomber(String msg)
+    {
+    	String[] split = msg.split(",");
+		int i = Integer.valueOf(split[1]);
+		int j = Integer.valueOf(split[2]);
+		
+		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource(ultimaAnimBomber)));
+    }
+    
     private void actualizarBomba(String msg)
     {
     	String[] split = msg.split(",");
 		int i = Integer.valueOf(split[1]);
 		int j = Integer.valueOf(split[2]);
 		
+		ultimaAnimBomber = "/Imgs/whitewithbomb1.png";
 		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitewithbomb1.png")));
+    }
+    
+    private void actualizacionPeriodicaBomba(String msg)
+    {
+    	String[] split = msg.split(",");
+		int i = Integer.valueOf(split[1]);
+		int j = Integer.valueOf(split[2]);
+		
+		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/bomb1.png")));
     }
     
     private void actualizarEnemigo(String msg)
