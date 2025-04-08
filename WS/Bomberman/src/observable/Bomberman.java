@@ -2,12 +2,15 @@ package observable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class Bomberman extends Observable{
    	
 	protected int[] coordenadas;
 	protected boolean vivo;
 	protected ArrayList<Bomba> bombas;
+	private Timer timer;
    
     public Bomberman(){
         vivo = true;
@@ -15,6 +18,16 @@ public abstract class Bomberman extends Observable{
         coordenadas = new int[2];
         coordenadas[0] = 0;
         coordenadas[1] = 0;
+        
+        TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() 
+			{
+				notificacionPeriodica();
+			}		
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 1000, 1000);
     }
 
     //Crea una Bomba con las coordenadas actuales del bomberman 
@@ -113,6 +126,25 @@ public abstract class Bomberman extends Observable{
 	{
 		setChanged();
 		notifyObservers("Bomber," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]) + "," + dir + "," + String.valueOf(hayBomba));
+	}
+	
+	public void notificacionPeriodica()
+	{
+		setChanged();
+		notifyObservers("PeriodoBomber," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
+		
+		if(bombas.size()>0)
+		{
+			for(int i = 0; i < bombas.size(); i++) 
+			{
+				Bomba b = bombas.get(i);
+				if(b.getFila() != coordenadas[0] && b.getColumna() != coordenadas[1])
+				{
+					setChanged();
+					notifyObservers("PeriodoBomba," + String.valueOf(b.getFila()) + "," + String.valueOf(b.getColumna()));
+				}
+			}
+		}
 	}
 
 }
