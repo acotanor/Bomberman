@@ -242,7 +242,7 @@ public class MainFrame extends JFrame implements Observer {
 		}
 		else if (dir.equals("Derecha"))
 		{
-			labels[i-1][j-1].setIcon(new ImageIcon());
+			labels[i][j-1].setIcon(new ImageIcon());
 		}
     }
     
