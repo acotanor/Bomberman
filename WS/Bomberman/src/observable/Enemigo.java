@@ -32,25 +32,56 @@ public class Enemigo
 	private void mover()
 	{
 		String dir = direccionAleatoria();
+		boolean arde = false;
 		
 		if(dir.equals("Izquierda"))
 		{
 			coordenadas[1]--;
+			arde = verificarCasilla();
+			if(arde)
+			{
+				coordenadas[1]++;
+				timer.cancel();
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+			}
 		}
 		else if(dir.equals("Derecha"))
 		{
 			coordenadas[1]++;
+			arde = verificarCasilla();
+			if(arde)
+			{
+				coordenadas[1]--;
+				timer.cancel();
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+			}
 		}
 		else if(dir.equals("Arriba"))
 		{
 			coordenadas[0]--;
+			arde = verificarCasilla();
+			if(arde)
+			{
+				coordenadas[0]++;
+				timer.cancel();
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+			}
 		}
 		else if(dir.equals("Abajo"))
 		{
 			coordenadas[0]++;
+			arde = verificarCasilla();
+			if(arde)
+			{
+				coordenadas[0]--;
+				timer.cancel();
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+			}
 		}
 		
-		if(!dir.equals(""))
+		
+		
+		if(!dir.equals("") && !arde)
 		{
 			ListaEnemigos.getLE().notificarEnemigo(coordenadas[0], coordenadas[1], tipo,dir);
 		}
@@ -87,9 +118,16 @@ public class Enemigo
 		
 		return dir;
 	}
-
+	
+	//Devuelve un booleano que indica si se encuentra en la fila pI y la columna pJ
 	public boolean estaEn(int pI, int pJ)
 	{
 		return(pI == coordenadas[0] && pJ == coordenadas[1]);
+	}
+	
+	//Verifica si el enemigo esta en una casilla ardiendo
+	public boolean verificarCasilla()
+	{
+		return (MatrizBloques.getMB().estaArdiendo(coordenadas[0],coordenadas[1]));
 	}
 }

@@ -67,4 +67,11 @@ public class ListaEnemigos extends Observable
 		setChanged();
 		notifyObservers("Enemigo," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + tipo + "," + String.valueOf(anim) + "," + direccion);
 	}
+
+	public void eliminarEnemigo(int pI, int pJ, Enemigo e)
+	{
+		setChanged();
+		notifyObservers("BloqueVacio," + String.valueOf(pI) + "," + String.valueOf(pJ));
+		lista.remove(e);
+	}
 }
