@@ -14,7 +14,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.*;
 import java.util.Observer;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,7 +32,7 @@ public class MainFrame extends JFrame implements Observer {
     
     private boolean finished = false;
     
-    private ArrayList<Timer> timers;
+    private Timer[][] timers;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -50,7 +49,7 @@ public class MainFrame extends JFrame implements Observer {
 
 	public MainFrame() 
     {
-		timers = new ArrayList<Timer>();
+		timers = new Timer[11][17];
     	controlador = getControlador();
     	addKeyListener(controlador);
     	addWindowListener(controlador);
@@ -306,14 +305,19 @@ public class MainFrame extends JFrame implements Observer {
 				else
 				{
 					MatrizBloques.getMB().dejarDeArder(pI, pJ);
-					timers.get(0).cancel();
-					timers.remove(0);
+					timers[pI][pJ].cancel();
+					timers[pI][pJ] = null;
 				}
 			}		
 		};
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 400);
-		timers.add(timer);
+		if(timers[pI][pJ] != null)
+		{
+			timers[pI][pJ].cancel();
+			timers[pI][pJ] = null;
+		}
+		timers[pI][pJ] = timer;
     }
    
     private Controlador getControlador() {
