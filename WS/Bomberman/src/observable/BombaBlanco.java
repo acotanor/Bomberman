@@ -12,7 +12,7 @@ public class BombaBlanco extends Bomba{
         TimerTask timerTask = new TimerTask(){
 			@Override
 			public void run(){
-				MatrizBloques.getMB().arder(pI, pJ);
+				arder(pI, pJ);
 				BombermanBlanco.getBom().eliminarBomba(b);
 				BombermanBlanco.getBom().actualizar();
 				timer.cancel();
@@ -24,19 +24,19 @@ public class BombaBlanco extends Bomba{
 
 	@Override
 	public void arder(int pI,int pJ){
-		MatrizBloques.getMB().arder(pI, pJ);
 		if(pI-1>=0){
 			MatrizBloques.getMB().arder(pI-1, pJ);
 		}
-		else if(pI+1<=11){
+		if(pI+1<=11){
 			MatrizBloques.getMB().arder(pI+1, pJ);
 		}
-		else if(pJ-1>=0){
+		if(pJ-1>=0){
 			MatrizBloques.getMB().arder(pI, pJ-1);
 		}
-		else if(pJ+1<=17){
+		if(pJ+1<=17){
 			MatrizBloques.getMB().arder(pI, pJ+1);
 		}
+		MatrizBloques.getMB().arder(pI, pJ);
 	}
 
 }

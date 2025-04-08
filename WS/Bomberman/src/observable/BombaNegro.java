@@ -12,7 +12,7 @@ public class BombaNegro extends Bomba{
         TimerTask timerTask = new TimerTask(){
 			@Override
 			public void run(){
-				MatrizBloques.getMB().arder(pI, pJ);
+				arder(pI, pJ);
 				BombermanNegro.getBom().eliminarBomba(b);
 				BombermanNegro.getBom().actualizar();
 				timer.cancel();

@@ -145,15 +145,15 @@ public class MatrizBloques extends Observable
 		return (matriz[pI][pJ].getType().equals("BloqueBlando")|| matriz[pI][pJ].getType().equals("BloqueDuro"));
 	}
 	
-	//El bloque de la fila pI y la columna pJ y los de su alrededor pasan a ser un bloque ardiendo
+	//El bloque de la fila pI y la columna pJ pasa a ser un bloque ardiendo
 	public void arder(int pI, int pJ)
 	{
 		
 		//Comprueba que el bloque a poner a arder no es duro 
-		if(pI>0 && !(matriz[pI][pJ].getType().equals("BloqueDuro")))
+		if(!(matriz[pI][pJ].getType().equals("BloqueDuro")))
 		{
-			matriz[pI-1][pJ] = new BloqueArdiendo(pI,pJ);
-			notificarBloque(pI-1,pJ,"BloqueArdiendo");
+			matriz[pI][pJ] = new BloqueArdiendo(pI,pJ);
+			notificarBloque(pI,pJ,"BloqueArdiendo");
 		}
 	
 	}
