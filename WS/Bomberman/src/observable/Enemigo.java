@@ -79,8 +79,6 @@ public class Enemigo
 			}
 		}
 		
-		
-		
 		if(!dir.equals("") && !arde)
 		{
 			ListaEnemigos.getLE().notificarEnemigo(coordenadas[0], coordenadas[1], tipo,dir);
@@ -129,5 +127,15 @@ public class Enemigo
 	public boolean verificarCasilla()
 	{
 		return (MatrizBloques.getMB().estaArdiendo(coordenadas[0],coordenadas[1]));
+	}
+	
+	//Si el enemigo esta en una casilla ardiendo, este se elimina
+	public void comprobarExplosion()
+	{
+		if(verificarCasilla())
+		{
+			timer.cancel();
+			ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+		}
 	}
 }

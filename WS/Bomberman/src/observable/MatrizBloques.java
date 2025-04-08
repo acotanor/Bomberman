@@ -38,7 +38,7 @@ public class MatrizBloques extends Observable
 	//Genera una pantalla con bloques duros en casillas impares, y bloques duros y blandos en las demas
 	public void inicializarPantallaClasica()
 	{
-		setEmpty();
+		setClassic();
 		if(escenario == 0) {
 			generarBloquesDuros();
 			generarBloquesVaciosYBlandos();
@@ -154,6 +154,7 @@ public class MatrizBloques extends Observable
 		{
 			matriz[pI][pJ] = new BloqueArdiendo(pI,pJ);
 			notificarBloque(pI,pJ,"BloqueArdiendo");
+			ListaEnemigos.getLE().comprobarExplosiones();
 		}
 	
 	}

@@ -74,4 +74,12 @@ public class ListaEnemigos extends Observable
 		notifyObservers("BloqueVacio," + String.valueOf(pI) + "," + String.valueOf(pJ));
 		lista.remove(e);
 	}
+	
+	public void comprobarExplosiones()
+	{
+		for(int i = 0; i < lista.size();i++)
+		{
+			lista.get(i).comprobarExplosion();
+		}
+	}
 }
