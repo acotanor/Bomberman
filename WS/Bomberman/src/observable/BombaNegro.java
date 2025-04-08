@@ -30,7 +30,7 @@ public class BombaNegro extends Bomba{
 				MatrizBloques.getMB().arder(i, pJ);
 			}
 		}
-		for(int j=0; j<=17; j++){
+		for(int j=0; j<17; j++){
 			if(j!=pJ){
 				MatrizBloques.getMB().arder(pI, j);
 			}
