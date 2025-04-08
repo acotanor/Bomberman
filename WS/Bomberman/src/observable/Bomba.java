@@ -14,4 +14,6 @@ public abstract class Bomba {
 	{
 		return (coordenadas[0] == pI && coordenadas[1] == pJ);
 	}
+
+	public abstract void arder(int pI, int pJ);
 }
