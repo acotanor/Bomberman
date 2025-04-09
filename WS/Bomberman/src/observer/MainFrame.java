@@ -27,10 +27,10 @@ public class MainFrame extends JFrame implements Observer {
     private String ultimaDir="";
     private int anim=1;
     private String ultimaAnimBomber="";
-    
     private boolean finished = false;
-    
     private Timer[][] timers;
+    
+    
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -58,7 +58,6 @@ public class MainFrame extends JFrame implements Observer {
     	
     	inicializarVista();
     }
-	
 	
 	private void inicializarVista()
 	{
@@ -91,6 +90,8 @@ public class MainFrame extends JFrame implements Observer {
             }
         }
 	}
+	
+	
 	
 	//Se llama a un metodo que actualiza la vista en funcion del argumento recibido
     @Override
@@ -270,6 +271,9 @@ public class MainFrame extends JFrame implements Observer {
 		jf.setVisible(true);
     }
     
+    
+    
+    //Se crea un timer para la animacion del bloque ardiendo de la fila pI y columna pJ
     private void crearTimer(int pI, int pJ)
     {
     	TimerTask timerTask = new TimerTask() {
@@ -299,6 +303,8 @@ public class MainFrame extends JFrame implements Observer {
 		timers[pI][pJ] = timer;
     }
    
+    
+    
     private Controlador getControlador() {
 		if (controlador == null) 
 		{
@@ -345,9 +351,7 @@ public class MainFrame extends JFrame implements Observer {
 		@Override
         public void windowOpened(WindowEvent e) 
          {
-			observable.MatrizBloques.getMB().inicializarPantallaClasica();
-			observable.BombermanBlanco.getBom().notificarPosicion("Inicio",false);
-			observable.Facade.getFacade().iniciarPartida("");
+			observable.Facade.getFacade().iniciarPartida("Classic","Blanco");
          }
     }
 }
