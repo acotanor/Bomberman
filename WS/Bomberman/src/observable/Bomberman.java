@@ -27,7 +27,7 @@ public abstract class Bomberman extends Observable{
 			}		
 		};
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 1000, 1000);
+		timer.scheduleAtFixedRate(timerTask, 1000, 50);
     }
 
     //Crea una Bomba con las coordenadas actuales del bomberman 
@@ -61,14 +61,25 @@ public abstract class Bomberman extends Observable{
 		return tiene;
 	}
 
-    	//Si la casilla actual del bomberman esta ardiendo, el bomberman muere
+    //Si la casilla actual del bomberman esta ardiendo, el bomberman muere
 	public void actualizar() {
 		
 		if (MatrizBloques.getMB().estaArdiendo(this.coordenadas[0],this.coordenadas[1])) 
 		{
 			this.vivo = false;
 			setChanged();
-			notifyObservers("Dead," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
+			notifyObservers("DeadBomb," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
+		}
+	}
+	
+	//Si bomberman esta en la fila pI y la columna pJ, pierde la partida
+	public void comprobarEnemigo(int pI, int pJ)
+	{
+		if(coordenadas[0] == pI && coordenadas[1] == pJ)
+		{
+			this.vivo = false;
+			setChanged();
+			notifyObservers("DeadEnemy," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
 		}
 	}
 	

@@ -27,13 +27,13 @@ public class BombaBlanco extends Bomba{
 		if(pI-1>=0){
 			MatrizBloques.getMB().arder(pI-1, pJ);
 		}
-		if(pI+1<11){
+		if(pI+1<=11){
 			MatrizBloques.getMB().arder(pI+1, pJ);
 		}
 		if(pJ-1>=0){
 			MatrizBloques.getMB().arder(pI, pJ-1);
 		}
-		if(pJ+1<17){
+		if(pJ+1<=17){
 			MatrizBloques.getMB().arder(pI, pJ+1);
 		}
 		MatrizBloques.getMB().arder(pI, pJ);

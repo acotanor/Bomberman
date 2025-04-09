@@ -1,17 +1,31 @@
 package observable;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ListaEnemigos extends Observable
 {
 	private static ListaEnemigos miLE = new ListaEnemigos();
-	private ArrayList<Enemigo> lista;
-	
+	private Enemigo[][] matrizEnemigos;
+	private Timer timer;
 	
 	private ListaEnemigos()
 	{
-		lista = new ArrayList<Enemigo>();
+		matrizEnemigos = new Enemigo[11][17];
+		
+		TimerTask timerTask = new TimerTask() 
+		{
+			@Override
+			public void run() 
+			{
+				limpiarEnemigos();
+				moverEnemigos();
+				notificarEnemigos();
+			}		
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 1000, 1000);
 	}
 	
 	public static ListaEnemigos getLE()
@@ -41,45 +55,95 @@ public class ListaEnemigos extends Observable
 		}
 		
 		Enemigo e = new Enemigo(i,j,tipo);
-		lista.add(e);
+		matrizEnemigos[i][j] = e;
 		
-		notificarEnemigo(i,j,tipo,"Inicio");
-	}
-
-	public boolean hayEnemigo(int pI, int pJ)
-	{
-		boolean hay = false;
-		int i = 0;
-		
-		while(!hay && i < lista.size())
-		{
-			hay = lista.get(i).estaEn(pI,pJ);
-			i++;
-		}
-		
-		return hay;
-	}
-
-	public void notificarEnemigo(int pI, int pJ, String tipo, String direccion)
-	{
-		Random r = new Random();
-		int anim = r.nextInt(1,3);
-		setChanged();
-		notifyObservers("Enemigo," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + tipo + "," + String.valueOf(anim) + "," + direccion);
-	}
-
-	public void eliminarEnemigo(int pI, int pJ, Enemigo e)
-	{
-		setChanged();
-		notifyObservers("BloqueVacio," + String.valueOf(pI) + "," + String.valueOf(pJ));
-		lista.remove(e);
+		notificarEnemigo(i,j,tipo);
 	}
 	
+	//Indica  si en la fila pI y en la columna pJ hay un enemigo
+	public boolean hayEnemigo(int pI, int pJ)
+	{
+		return (matrizEnemigos[pI][pJ]!= null);
+	}
+	
+	//Notifica a la vista el enemigo de la fila pI y la columna pJ
+	public void notificarEnemigo(int pI, int pJ, String tipo)
+	{
+		Random r = new Random();
+		
+		final int anim = r.nextInt(2) + 1;
+		setChanged();
+		notifyObservers("Enemigo," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + tipo + "," + String.valueOf(anim));
+		
+		
+	}
+	
+	//Elimina el enemigo de la fila pI y la columna pJ
+	public void eliminarEnemigo(int pI, int pJ)
+	{
+		matrizEnemigos[pI][pJ] = null;
+	}
+	
+	//Hace que todos los enemigos comprueben si estan en una explosion
 	public void comprobarExplosiones()
 	{
-		for(int i = 0; i < lista.size();i++)
+		for(int i = 0; i < 11;i++)
 		{
-			lista.get(i).comprobarExplosion();
+			for(int j = 0; j < 17; j++)
+			{
+				if(matrizEnemigos[i][j] != null)
+				{
+					matrizEnemigos[i][j].comprobarExplosion();
+				}
+			}
+		}
+	}
+
+	//Limpia todos los enemigos de la vista
+	private void limpiarEnemigos()
+	{
+		for(int i = 0; i < 11;i++)
+		{
+			for(int j = 0; j < 17; j++)
+			{
+				Enemigo e = matrizEnemigos[i][j];
+				if(e != null)
+				{
+					setChanged();
+					notifyObservers("BloqueVacio," + String.valueOf(i) + "," + String.valueOf(j));
+				}
+			}
+		}
+	}
+	
+	//Mueve a todos los enemigos
+	private void moverEnemigos()
+	{
+		for(int i = 0; i < 11;i++)
+		{
+			for(int j = 0; j < 17; j++)
+			{
+				if(matrizEnemigos[i][j] != null)
+				{
+					matrizEnemigos[i][j].mover();
+				}
+			}
+		}
+	}
+
+	//Notifica a todos los enemigos
+	private void notificarEnemigos()
+	{
+		for(int i = 0; i < 11;i++)
+		{
+			for(int j = 0; j < 17; j++)
+			{
+				Enemigo e = matrizEnemigos[i][j];
+				if(e != null)
+				{
+					notificarEnemigo(i,j,e.getTipo());
+				}
+			}
 		}
 	}
 }

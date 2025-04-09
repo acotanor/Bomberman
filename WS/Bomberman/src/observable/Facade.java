@@ -38,4 +38,19 @@ public class Facade
 			}
 		}
 	}
+
+	public boolean estaArdiendo(int i, int j)
+	{
+		return MatrizBloques.getMB().estaArdiendo(i, j);
+	}
+
+	public boolean hayObstaculo(int i, int j)
+	{
+		return (MatrizBloques.getMB().hayBloque(i, j) || ListaEnemigos.getLE().hayEnemigo(i, j));
+	}
+
+	public void comprobarPosicion(int i, int j)
+	{
+		BombermanBlanco.getBom().comprobarEnemigo(i,j);
+	}
 }

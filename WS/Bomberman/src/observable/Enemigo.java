@@ -1,13 +1,10 @@
 package observable;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemigo 
 {
-	private Timer timer;
 	private int[] coordenadas;
 	private String tipo;
 	
@@ -17,19 +14,9 @@ public class Enemigo
 		coordenadas[0] = i;
 		coordenadas[1] = j;
 		tipo = pTipo;
-		
-		TimerTask timerTask = new TimerTask() {
-			@Override
-			public void run() 
-			{
-				mover();
-			}		
-		};
-		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 1000, 1000);
 	}
 	
-	private void mover()
+	public void mover()
 	{
 		String dir = direccionAleatoria();
 		boolean arde = false;
@@ -41,8 +28,7 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[1]++;
-				timer.cancel();
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		else if(dir.equals("Derecha"))
@@ -52,8 +38,7 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[1]--;
-				timer.cancel();
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		else if(dir.equals("Arriba"))
@@ -63,8 +48,7 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[0]++;
-				timer.cancel();
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		else if(dir.equals("Abajo"))
@@ -74,14 +58,13 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[0]--;
-				timer.cancel();
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		
 		if(!dir.equals("") && !arde)
 		{
-			ListaEnemigos.getLE().notificarEnemigo(coordenadas[0], coordenadas[1], tipo,dir);
+			Facade.getFacade().comprobarPosicion(coordenadas[0],coordenadas[1]);
 		}
 	}
 	
@@ -91,19 +74,19 @@ public class Enemigo
 		String dir = "";
 		ArrayList<String> direcciones = new ArrayList<String>();
 		
-		if(coordenadas[0]>0 && !MatrizBloques.getMB().hayBloque(coordenadas[0]-1, coordenadas[1]))
+		if(coordenadas[0]>0 && !Facade.getFacade().hayObstaculo(coordenadas[0]-1, coordenadas[1]))
 		{
 			direcciones.add("Arriba");
 		}
-		if(coordenadas[0]<10 && !MatrizBloques.getMB().hayBloque(coordenadas[0]+1, coordenadas[1]))
+		if(coordenadas[0]<10 && !Facade.getFacade().hayObstaculo(coordenadas[0]+1, coordenadas[1]))
 		{
 			direcciones.add("Abajo");
 		}
-		if(coordenadas[1]>0 && !MatrizBloques.getMB().hayBloque(coordenadas[0], coordenadas[1]-1))
+		if(coordenadas[1]>0 && !Facade.getFacade().hayObstaculo(coordenadas[0], coordenadas[1]-1))
 		{
 			direcciones.add("Izquierda");
 		}
-		if(coordenadas[1]<16 && !MatrizBloques.getMB().hayBloque(coordenadas[0], coordenadas[1]+1))
+		if(coordenadas[1]<16 && !Facade.getFacade().hayObstaculo(coordenadas[0], coordenadas[1]+1))
 		{
 			direcciones.add("Derecha");
 		}
@@ -126,7 +109,7 @@ public class Enemigo
 	//Verifica si el enemigo esta en una casilla ardiendo
 	public boolean verificarCasilla()
 	{
-		return (MatrizBloques.getMB().estaArdiendo(coordenadas[0],coordenadas[1]));
+		return (Facade.getFacade().estaArdiendo(coordenadas[0],coordenadas[1]));
 	}
 	
 	//Si el enemigo esta en una casilla ardiendo, este se elimina
@@ -134,8 +117,12 @@ public class Enemigo
 	{
 		if(verificarCasilla())
 		{
-			timer.cancel();
-			ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1],this);
+			ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 		}
+	}
+
+	public String getTipo()
+	{
+		return tipo;
 	}
 }
