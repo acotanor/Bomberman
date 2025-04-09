@@ -21,7 +21,7 @@ public class ListaEnemigos extends Observable
 			{
 				limpiarEnemigos();
 				moverEnemigos();
-				notificarEnemigos();
+				notificarYReiniciarEnemigos();
 			}		
 		};
 		timer = new Timer();
@@ -74,8 +74,6 @@ public class ListaEnemigos extends Observable
 		final int anim = r.nextInt(2) + 1;
 		setChanged();
 		notifyObservers("Enemigo," + String.valueOf(pI) + "," + String.valueOf(pJ) + "," + tipo + "," + String.valueOf(anim));
-		
-		
 	}
 	
 	//Elimina el enemigo de la fila pI y la columna pJ
@@ -99,6 +97,8 @@ public class ListaEnemigos extends Observable
 		}
 	}
 
+	
+	
 	//Limpia todos los enemigos de la vista
 	private void limpiarEnemigos()
 	{
@@ -123,16 +123,24 @@ public class ListaEnemigos extends Observable
 		{
 			for(int j = 0; j < 17; j++)
 			{
-				if(matrizEnemigos[i][j] != null)
+				if(matrizEnemigos[i][j] != null && !matrizEnemigos[i][j].seHaMovido())
 				{
-					matrizEnemigos[i][j].mover();
+					int[] coordsNuevas = matrizEnemigos[i][j].mover();
+					int newI = coordsNuevas[0];
+					int newJ = coordsNuevas[1];
+					
+					if(newI != i || newJ != j)
+					{
+						matrizEnemigos[newI][newJ] = matrizEnemigos[i][j];
+						matrizEnemigos[i][j] = null;
+					}
 				}
 			}
 		}
 	}
-
-	//Notifica a todos los enemigos
-	private void notificarEnemigos()
+	
+	//Notifica las posiciones de todos los enemigos y reinicia a false la variable "movido" 
+	private void notificarYReiniciarEnemigos()
 	{
 		for(int i = 0; i < 11;i++)
 		{
@@ -142,8 +150,10 @@ public class ListaEnemigos extends Observable
 				if(e != null)
 				{
 					notificarEnemigo(i,j,e.getTipo());
+					e.reiniciarMov();
 				}
 			}
 		}
 	}
+
 }

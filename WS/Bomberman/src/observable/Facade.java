@@ -4,10 +4,11 @@ import java.util.Random;
 public class Facade 
 {
 	private static Facade miFacade = new Facade();
+	private Bomberman bomber;
 	
 	private Facade()
 	{
-		
+		bomber = null;
 	}
 	
 	public static Facade getFacade()
@@ -15,9 +16,27 @@ public class Facade
 		return miFacade;
 	}
 
-	public void iniciarPartida(String tipo)
+	public void iniciarPartida(String tipo, String color)
 	{
+		inicializarPantalla(tipo);
 		generarEnemigos();
+		inicializarBomberman(color);
+	}
+	
+	private void inicializarPantalla(String tipo)
+	{
+		if(tipo.equals("Classic"))
+		{
+			MatrizBloques.getMB().inicializarPantallaClasica();
+		}
+		else if(tipo.equals("Soft"))
+		{
+			MatrizBloques.getMB().inicializarPantallaSoft();
+		}
+		else if(tipo.equals("Empty"))
+		{
+			MatrizBloques.getMB().inicializarPantallaEmpty();
+		}
 	}
 	
 	private void generarEnemigos()
@@ -39,6 +58,20 @@ public class Facade
 		}
 	}
 
+	private void inicializarBomberman(String color)
+	{
+		if(color.equals("Blanco"))
+		{
+			bomber = observable.BombermanBlanco.getBom();
+		} 
+		else if(color.equals("Negro"))
+		{
+			bomber = observable.BombermanNegro.getBom();
+		}
+		bomber.notificarPosicion("Inicio",false);
+	}
+	
+	
 	public boolean estaArdiendo(int i, int j)
 	{
 		return MatrizBloques.getMB().estaArdiendo(i, j);
@@ -51,6 +84,6 @@ public class Facade
 
 	public void comprobarPosicion(int i, int j)
 	{
-		BombermanBlanco.getBom().comprobarEnemigo(i,j);
+		bomber.comprobarCasilla(i,j);
 	}
 }

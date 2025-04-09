@@ -11,7 +11,7 @@ public class BombermanBlanco extends Bomberman{
 
 	@Override
 	public void soltarBomba(){
-		if(this.vivo)
+		if(this.vivo && bombas.size() < 10)
 		{
 			this.bombas.add(new BombaBlanco(this.coordenadas[0], this.coordenadas[1]));
 				

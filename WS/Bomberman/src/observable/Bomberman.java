@@ -30,7 +30,9 @@ public abstract class Bomberman extends Observable{
 		timer.scheduleAtFixedRate(timerTask, 1000, 50);
     }
 
-    //Crea una Bomba con las coordenadas actuales del bomberman 
+    
+    
+    //Crea una Bomba con las coordenadas actuales del bomberman, lo implementan los hijos 
     public void soltarBomba(){
         
     }
@@ -61,19 +63,24 @@ public abstract class Bomberman extends Observable{
 		return tiene;
 	}
 
+	
+	//Comprueba si en la posicion actual hay un enemigo
+	private boolean hayEnemigo()
+	{
+		return ListaEnemigos.getLE().hayEnemigo(coordenadas[0], coordenadas[1]);
+	}
+	
     //Si la casilla actual del bomberman esta ardiendo, el bomberman muere
 	public void actualizar() {
 		
 		if (MatrizBloques.getMB().estaArdiendo(this.coordenadas[0],this.coordenadas[1])) 
 		{
-			this.vivo = false;
-			setChanged();
-			notifyObservers("DeadBomb," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
+			morir();
 		}
 	}
 	
 	//Si bomberman esta en la fila pI y la columna pJ, pierde la partida
-	public void comprobarEnemigo(int pI, int pJ)
+	public void comprobarCasilla(int pI, int pJ)
 	{
 		if(coordenadas[0] == pI && coordenadas[1] == pJ)
 		{
@@ -82,6 +89,16 @@ public abstract class Bomberman extends Observable{
 			notifyObservers("DeadEnemy," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
 		}
 	}
+		
+	//Pierde la partida
+	private void morir()
+	{
+		this.vivo = false;
+		setChanged();
+		notifyObservers("DeadBomb," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
+	}
+	
+	
 	
 	//Si la celda de arriba esta disponible, se mueve hacia arriba
 	public void moverArriba() 
@@ -92,6 +109,11 @@ public abstract class Bomberman extends Observable{
 			this.coordenadas[0]--;
 			notificarPosicion("Arriba",b);
 			actualizar();
+			
+			if(hayEnemigo())
+			{
+				morir();
+			}
 		}
 	}
 	
@@ -104,6 +126,11 @@ public abstract class Bomberman extends Observable{
 			this.coordenadas[0]++;
 			notificarPosicion("Abajo", b);
 			actualizar();
+			
+			if(hayEnemigo()) 
+			{
+				morir();
+			}
 		}
 	}
 	
@@ -116,6 +143,11 @@ public abstract class Bomberman extends Observable{
 			this.coordenadas[1]--;
 			notificarPosicion("Izquierda", b);
 			actualizar();
+			
+			if(hayEnemigo())
+			{
+				morir();
+			}
 		}
 	}
 	
@@ -128,9 +160,16 @@ public abstract class Bomberman extends Observable{
 			this.coordenadas[1]++;
 			notificarPosicion("Derecha", b);
 			actualizar();
+			
+			if(hayEnemigo())
+			{
+				morir();
+			}
 		}
 
 	}
+	
+	
 	
 	//Notifica la posicion y la direccion a la vista
 	public void notificarPosicion(String dir,boolean hayBomba)

@@ -7,6 +7,7 @@ public class Enemigo
 {
 	private int[] coordenadas;
 	private String tipo;
+	private boolean movido;
 	
 	public Enemigo(int i, int j, String pTipo)
 	{
@@ -14,10 +15,13 @@ public class Enemigo
 		coordenadas[0] = i;
 		coordenadas[1] = j;
 		tipo = pTipo;
+		movido = false;
 	}
 	
-	public void mover()
+	//Cambia su posicion a una aleatoria y devuelve sus nuevas coordenadas
+	public int[] mover()
 	{
+		movido = true;
 		String dir = direccionAleatoria();
 		boolean arde = false;
 		
@@ -66,6 +70,7 @@ public class Enemigo
 		{
 			Facade.getFacade().comprobarPosicion(coordenadas[0],coordenadas[1]);
 		}
+		return coordenadas;
 	}
 	
 	//Obtiene una direccion aleatoriamente entre todas las posibles, o un String vacio en su defecto
@@ -100,6 +105,8 @@ public class Enemigo
 		return dir;
 	}
 	
+	
+	
 	//Devuelve un booleano que indica si se encuentra en la fila pI y la columna pJ
 	public boolean estaEn(int pI, int pJ)
 	{
@@ -121,8 +128,20 @@ public class Enemigo
 		}
 	}
 
+	
+	
 	public String getTipo()
 	{
 		return tipo;
+	}
+
+	public boolean seHaMovido()
+	{
+		return movido;
+	}
+
+	public void reiniciarMov()
+	{
+		movido = false;
 	}
 }
