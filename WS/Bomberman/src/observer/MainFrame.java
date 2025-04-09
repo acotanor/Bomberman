@@ -8,8 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import observable.MatrizBloques;
-
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.*;
@@ -255,26 +253,8 @@ public class MainFrame extends JFrame implements Observer {
 		int j = Integer.valueOf(split[2]);
 		String tipo = split[3];
 		String animacion = split[4];
-		String dir = split[5];
 		
 		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/" + tipo + String.valueOf(animacion) + ".png")));
-		
-		if (dir.equals(("Arriba")))
-		{
-			labels[i+1][j].setIcon(new ImageIcon());
-		}
-		else if (dir.equals("Abajo"))
-		{
-			labels[i-1][j].setIcon(new ImageIcon());
-		}
-		else if (dir.equals("Izquierda"))
-		{
-			labels[i][j+1].setIcon(new ImageIcon());
-		}
-		else if (dir.equals("Derecha"))
-		{
-			labels[i][j-1].setIcon(new ImageIcon());
-		}
     }
     
     private void actualizarMuerte(String msg)
