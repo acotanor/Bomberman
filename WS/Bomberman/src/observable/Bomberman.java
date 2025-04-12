@@ -37,10 +37,11 @@ public abstract class Bomberman extends Observable{
         
     }
 
-    //Elimina una bomba de la lista
+    //Elimina una bomba de la lista y se comprueba si se han matado enemigos
 	public void eliminarBomba(Bomba b)
 	{
 		this.bombas.remove(b);
+		MatrizEnemigos.getME().comprobarExplosiones();
 	}
 
     //Verifica si en la casilla actual hay una bomba colocada
@@ -67,7 +68,7 @@ public abstract class Bomberman extends Observable{
 	//Comprueba si en la posicion actual hay un enemigo
 	private boolean hayEnemigo()
 	{
-		return ListaEnemigos.getLE().hayEnemigo(coordenadas[0], coordenadas[1]);
+		return MatrizEnemigos.getME().hayEnemigo(coordenadas[0], coordenadas[1]);
 	}
 	
     //Si la casilla actual del bomberman esta ardiendo, el bomberman muere

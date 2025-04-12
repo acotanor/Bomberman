@@ -50,9 +50,9 @@ public class Facade
 			int fila = r.nextInt(11);
 			int columna = r.nextInt(17);
 			
-			if(!MatrizBloques.getMB().hayBloque(fila, columna) && !ListaEnemigos.getLE().hayEnemigo(fila,columna) && fila+columna>1)
+			if(!MatrizBloques.getMB().hayBloque(fila, columna) && !MatrizEnemigos.getME().hayEnemigo(fila,columna) && fila+columna>1)
 			{
-				ListaEnemigos.getLE().generarEnemigo(fila, columna);
+				MatrizEnemigos.getME().generarEnemigo(fila, columna);
 				i++;
 			}
 		}
@@ -79,7 +79,7 @@ public class Facade
 
 	public boolean hayObstaculo(int i, int j)
 	{
-		return (MatrizBloques.getMB().hayBloque(i, j) || ListaEnemigos.getLE().hayEnemigo(i, j));
+		return (MatrizBloques.getMB().hayBloque(i, j) || MatrizEnemigos.getME().hayEnemigo(i, j));
 	}
 
 	public void comprobarPosicion(int i, int j)

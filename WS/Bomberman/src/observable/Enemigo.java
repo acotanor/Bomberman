@@ -32,7 +32,7 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[1]++;
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
+				MatrizEnemigos.getME().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		else if(dir.equals("Derecha"))
@@ -42,7 +42,7 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[1]--;
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
+				MatrizEnemigos.getME().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		else if(dir.equals("Arriba"))
@@ -52,7 +52,7 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[0]++;
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
+				MatrizEnemigos.getME().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		else if(dir.equals("Abajo"))
@@ -62,7 +62,7 @@ public class Enemigo
 			if(arde)
 			{
 				coordenadas[0]--;
-				ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
+				MatrizEnemigos.getME().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 			}
 		}
 		
@@ -124,7 +124,7 @@ public class Enemigo
 	{
 		if(verificarCasilla())
 		{
-			ListaEnemigos.getLE().eliminarEnemigo(coordenadas[0],coordenadas[1]);
+			MatrizEnemigos.getME().eliminarEnemigo(coordenadas[0],coordenadas[1]);
 		}
 	}
 

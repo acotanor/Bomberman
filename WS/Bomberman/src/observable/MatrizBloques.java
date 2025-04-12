@@ -144,7 +144,6 @@ public class MatrizBloques extends Observable
 		{
 			matriz[pI][pJ] = new BloqueArdiendo(pI,pJ);
 			notificarBloque(pI,pJ,"BloqueArdiendo");
-			ListaEnemigos.getLE().comprobarExplosiones();
 		}
 	
 	}
