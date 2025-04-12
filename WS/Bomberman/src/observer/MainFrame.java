@@ -54,7 +54,7 @@ public class MainFrame extends JFrame implements Observer {
     	
     	observable.MatrizBloques.getMB().addObserver(this);
     	observable.BombermanBlanco.getBom().addObserver(this);
-    	observable.ListaEnemigos.getLE().addObserver(this);
+    	observable.MatrizEnemigos.getME().addObserver(this);
     	
     	inicializarVista();
     }
@@ -126,6 +126,10 @@ public class MainFrame extends JFrame implements Observer {
 		else if(msg.startsWith("Dead") && !finished)
 		{
 			actualizarMuerte(msg);
+		} 
+		else if(msg.startsWith("Win") && !finished)
+		{
+			actualizarVictoria();
 		}
 	}
     
@@ -271,7 +275,13 @@ public class MainFrame extends JFrame implements Observer {
 		jf.setVisible(true);
     }
     
-    
+    private void actualizarVictoria()
+    {
+    	finished = true;
+    	
+    	Win_Window jf = new Win_Window();
+    	jf.setVisible(true);
+    }
     
     //Se crea un timer para la animacion del bloque ardiendo de la fila pI y columna pJ
     private void crearTimer(int pI, int pJ)
