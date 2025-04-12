@@ -49,55 +49,35 @@ public class MatrizBloques extends Observable
 	
 	
 	//Genera bloques duros en casillas impares
-	private void generarBloquesDuros()
-	{
-		//Se generan bloques duros en las posiciones impares: (1,1), (1,3), (1,5)...
-		for (int i=1;i<11;i+=2)
-		{
-			for (int j=1;j<17;j+=2)
-			{
-				matriz[i][j] = new BloqueDuro();
-				notificarBloque(i,j,"BloqueDuro");
-			}
-		}
+	private void generarBloquesDuros() {
+	    BloqueFactory factory = BloqueFactory.getBloqueFactory(); // Obtén la instancia de la fábrica
+	    for (int i = 1; i < 11; i += 2) {
+	        for (int j = 1; j < 17; j += 2) {
+	            matriz[i][j] = factory.generarBloque("BloqueDuro"); // Usa la fábrica para crear el bloque
+	            notificarBloque(i, j, "BloqueDuro"); // Notifica el cambio
+	        }
+	    }
 	}
 	
 	//Genera bloques blandos y vacios en las casillas no asignadas
-	private void generarBloquesVaciosYBlandos()
-	{
-		//Si no hay una casilla, se genera aleatoriamente un bloque vacio o uno blando, menos en las coords. iniciales, donde se genera uno vacio
-		Random r = new Random();
-		for (int i=0;i<11;i++)
-		{
-			for (int j=0;j<17;j++)
-			{
-				if(matriz[i][j] == null)
-				{
-					if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0))
-					{
-						matriz[i][j] = new BloqueVacio();
-						notificarBloque(i,j,"BloqueVacio");
-					}
-					else 
-					{
-						int x = r.nextInt(2);
-						
-						switch(x) 
-						{
-							case 0:
-								matriz[i][j] = new BloqueVacio();
-								notificarBloque(i,j,"BloqueVacio");
-								break;
-								
-							case 1:
-								matriz[i][j] = new BloqueBlando();
-								notificarBloque(i,j,"BloqueBlando");
-								break;
-						}
-					}
-				}
-			}
-		}
+	private void generarBloquesVaciosYBlandos() {
+	    BloqueFactory factory = BloqueFactory.getBloqueFactory(); // Obtén la instancia de la fábrica
+	    Random r = new Random();
+
+	    for (int i = 0; i < 11; i++) {
+	        for (int j = 0; j < 17; j++) {
+	            if (matriz[i][j] == null) {
+	                if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
+	                    matriz[i][j] = factory.generarBloque("BloqueVacio"); // Usa la fábrica para crear un bloque vacío
+	                    notificarBloque(i, j, "BloqueVacio");
+	                } else {
+	                    String tipoBloque = r.nextInt(2) == 0 ? "BloqueVacio" : "BloqueBlando"; // Decide aleatoriamente el tipo
+	                    matriz[i][j] = factory.generarBloque(tipoBloque); // Usa la fábrica para crear el bloque
+	                    notificarBloque(i, j, tipoBloque);
+	                }
+	            }
+	        }
+	    }
 	}
 
 	
@@ -136,16 +116,12 @@ public class MatrizBloques extends Observable
 	
 	
 	//El bloque de la fila pI y la columna pJ pasa a ser un bloque ardiendo
-	public void arder(int pI, int pJ)
-	{
-		
-		//Comprueba que el bloque a poner a arder no es duro 
-		if(!(matriz[pI][pJ].getType().equals("BloqueDuro")))
-		{
-			matriz[pI][pJ] = new BloqueArdiendo(pI,pJ);
-			notificarBloque(pI,pJ,"BloqueArdiendo");
+	public void arder(int pI, int pJ) {
+		// Comprueba que el bloque a poner a arder no es duro
+		if (!(matriz[pI][pJ].getType().equals("BloqueDuro"))) {
+			matriz[pI][pJ] = BloqueFactory.getBloqueFactory().generarBloque("BloqueArdiendo", pI, pJ);
+			notificarBloque(pI, pJ, "BloqueArdiendo");
 		}
-	
 	}
 	
 	//El bloque de la fila pI y la columna pJ pasa de ser un bloque ardiendo a un bloque vacio

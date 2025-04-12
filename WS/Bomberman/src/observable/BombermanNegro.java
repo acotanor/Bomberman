@@ -10,13 +10,13 @@ public class BombermanNegro extends Bomberman{
     }
 
     @Override
-	public void soltarBomba(){
-		if(this.vivo && bombas.size() < 1)
-		{
-			this.bombas.add(new BombaNegro(this.coordenadas[0], this.coordenadas[1]));
-				
-			setChanged();
-			notifyObservers("Bomba," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
-		}
-	}
+    public void soltarBomba() {
+        if (this.vivo && bombas.size() < 1) {
+            Bomba bomba = BombaFactory.getBombaFactory().generarBomba("BombaNegro", this.coordenadas[0], this.coordenadas[1]);
+            this.bombas.add(bomba);
+    
+            setChanged();
+            notifyObservers("Bomba," + this.coordenadas[0] + "," + this.coordenadas[1]);
+        }
+    }
 }
