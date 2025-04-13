@@ -1,6 +1,5 @@
 package observer;
 
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -31,19 +30,6 @@ public class MainFrame extends JFrame implements Observer {
     private Timer[][] timers;
     
     
-    
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    MainFrame frame = new MainFrame();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
 	public MainFrame() 
     {
@@ -54,6 +40,7 @@ public class MainFrame extends JFrame implements Observer {
     	
     	observable.MatrizBloques.getMB().addObserver(this);
     	observable.BombermanBlanco.getBom().addObserver(this);
+    	observable.BombermanNegro.getBom().addObserver(this);
     	observable.MatrizEnemigos.getME().addObserver(this);
     	
     	inicializarVista();
@@ -173,6 +160,7 @@ public class MainFrame extends JFrame implements Observer {
 		int j = Integer.valueOf(split[2]);
 		String direccion = split[3];
 		boolean hayBomba = Boolean.valueOf(split[4]);
+		String color = split[5];
 		
 		if(ultimaDir.equals(direccion))
 		{
@@ -196,30 +184,30 @@ public class MainFrame extends JFrame implements Observer {
 		
 		if(direccion.equals("Izquierda"))
 		{
-			ultimaAnimBomber = "/Imgs/whiteleft" + String.valueOf(anim) + ".png";
-			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteleft" + String.valueOf(anim) + ".png")));
+			ultimaAnimBomber = "/Imgs/" + color + "left" + String.valueOf(anim) + ".png";
+			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/" + color + "left" + String.valueOf(anim) + ".png")));
 			labels[i][j+1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 		}
 		else if(direccion.equals("Arriba"))
 		{
-			ultimaAnimBomber = "/Imgs/whiteup" + String.valueOf(anim) + ".png";
-			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteup" + String.valueOf(anim) + ".png")));
+			ultimaAnimBomber = "/Imgs/" + color + "up" + String.valueOf(anim) + ".png";
+			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/" + color + "up" + String.valueOf(anim) + ".png")));
 			labels[i+1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 		}
 		else if(direccion.equals("Abajo"))
 		{
-			ultimaAnimBomber = "/Imgs/whitedown" + String.valueOf(anim) + ".png";
-			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitedown" + String.valueOf(anim) + ".png")));
+			ultimaAnimBomber = "/Imgs/" + color + "down" + String.valueOf(anim) + ".png";
+			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/" + color + "down" + String.valueOf(anim) + ".png")));
 			labels[i-1][j].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 		}
 		else
 		{
-			ultimaAnimBomber = "/Imgs/whiteright" + String.valueOf(anim) + ".png";
+			ultimaAnimBomber = "/Imgs/" + color + "right" + String.valueOf(anim) + ".png";
 			if(direccion.equals("Derecha"))
 			{
 				labels[i][j-1].setIcon(new ImageIcon(MainFrame.class.getResource(icono)));
 			}
-			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whiteright" + String.valueOf(anim) + ".png")));
+			labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/" + color + "right" + String.valueOf(anim) + ".png")));
 		}
     }
     
@@ -237,9 +225,10 @@ public class MainFrame extends JFrame implements Observer {
     	String[] split = msg.split(",");
 		int i = Integer.valueOf(split[1]);
 		int j = Integer.valueOf(split[2]);
+		String color = split[3];
 		
-		ultimaAnimBomber = "/Imgs/whitewithbomb1.png";
-		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/whitewithbomb1.png")));
+		ultimaAnimBomber = "/Imgs/" + color + "withbomb1.png";
+		labels[i][j].setIcon(new ImageIcon(MainFrame.class.getResource("/Imgs/" + color + "withbomb1.png")));
     }
     
     private void actualizacionPeriodicaBomba(String msg)
@@ -332,26 +321,32 @@ public class MainFrame extends JFrame implements Observer {
 		public void keyPressed(KeyEvent e) 
 		{
 			int keyCode = e.getKeyCode();
-            
+            String tecla = "";
+			
             if (keyCode == KeyEvent.VK_UP) 
             {
-            	observable.BombermanBlanco.getBom().moverArriba();
+            	tecla = "Arriba";
             } 
             else if (keyCode == KeyEvent.VK_DOWN) 
             {
-            	observable.BombermanBlanco.getBom().moverAbajo();
+            	tecla = "Abajo";
             } 
             else if (keyCode == KeyEvent.VK_LEFT) 
             {
-            	observable.BombermanBlanco.getBom().moverIzquierda();
+            	tecla = "Izquierda";
             } 
             else if (keyCode == KeyEvent.VK_RIGHT) 
             {
-            	observable.BombermanBlanco.getBom().moverDerecha();
+            	tecla = "Derecha";
             }
             else if (keyCode == KeyEvent.VK_B) 
             {
-            	observable.BombermanBlanco.getBom().soltarBomba();
+            	tecla = "B";
+            }
+            
+            if(!tecla.equals(""))
+            {
+            	observable.Facade.getFacade().accionBomber(tecla);
             }
 		}
 
@@ -361,7 +356,7 @@ public class MainFrame extends JFrame implements Observer {
 		@Override
         public void windowOpened(WindowEvent e) 
          {
-			observable.Facade.getFacade().iniciarPartida("Classic","Blanco");
+			observable.Facade.getFacade().iniciarPartida();
          }
     }
 }
