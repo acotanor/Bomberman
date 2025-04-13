@@ -6,9 +6,24 @@ public class Facade
 	private static Facade miFacade = new Facade();
 	private Bomberman bomber;
 	
+	private String escenario;
+	private String color;
+	
 	private Facade()
 	{
 		bomber = null;
+		escenario = "CLASICA";
+		color = "BLANCO";
+	}
+	
+	public void setEscenario(String pEscenario) 
+	{
+		escenario = pEscenario;
+	}
+	
+	public void setColor(String pColor)
+	{
+		color = pColor;
 	}
 	
 	public static Facade getFacade()
@@ -16,27 +31,16 @@ public class Facade
 		return miFacade;
 	}
 
-	public void iniciarPartida(String tipo, String color)
+	public void iniciarPartida()
 	{
-		inicializarPantalla(tipo);
+		inicializarPantalla();
 		generarEnemigos();
-		inicializarBomberman(color);
+		inicializarBomberman();
 	}
 	
-	private void inicializarPantalla(String tipo)
+	private void inicializarPantalla()
 	{
-		if(tipo.equals("Classic"))
-		{
-			MatrizBloques.getMB().inicializarPantallaClasica();
-		}
-		else if(tipo.equals("Soft"))
-		{
-			MatrizBloques.getMB().inicializarPantallaSoft();
-		}
-		else if(tipo.equals("Empty"))
-		{
-			MatrizBloques.getMB().inicializarPantallaEmpty();
-		}
+		MatrizBloques.getMB().inicializarPantalla(escenario);
 	}
 	
 	private void generarEnemigos()
@@ -58,13 +62,13 @@ public class Facade
 		}
 	}
 
-	private void inicializarBomberman(String color)
+	private void inicializarBomberman()
 	{
-		if(color.equals("Blanco"))
+		if(color.equals("BLANCO"))
 		{
 			bomber = observable.BombermanBlanco.getBom();
 		} 
-		else if(color.equals("Negro"))
+		else if(color.equals("NEGRO"))
 		{
 			bomber = observable.BombermanNegro.getBom();
 		}
@@ -85,5 +89,29 @@ public class Facade
 	public void comprobarPosicion(int i, int j)
 	{
 		bomber.comprobarCasilla(i,j);
+	}
+
+	public void accionBomber(String tecla)
+	{
+		if (tecla.equals("Arriba")) 
+        {
+        	bomber.moverArriba();
+        } 
+        else if (tecla.equals("Abajo")) 
+        {
+        	bomber.moverAbajo();
+        } 
+        else if (tecla.equals("Izquierda")) 
+        {
+        	bomber.moverIzquierda();
+        } 
+        else if (tecla.equals("Derecha")) 
+        {
+        	bomber.moverDerecha();
+        }
+        else if (tecla.equals("B")) 
+        {
+        	bomber.soltarBomba();
+        }
 	}
 }

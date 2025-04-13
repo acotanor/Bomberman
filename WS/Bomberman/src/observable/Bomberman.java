@@ -11,6 +11,7 @@ public abstract class Bomberman extends Observable{
 	protected boolean vivo;
 	protected ArrayList<Bomba> bombas;
 	private Timer timer;
+	protected String color;
    
     public Bomberman(){
         vivo = true;
@@ -28,6 +29,7 @@ public abstract class Bomberman extends Observable{
 		};
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 1000, 50);
+		this.color="None";
     }
 
     
@@ -176,13 +178,17 @@ public abstract class Bomberman extends Observable{
 	public void notificarPosicion(String dir,boolean hayBomba)
 	{
 		setChanged();
-		notifyObservers("Bomber," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]) + "," + dir + "," + String.valueOf(hayBomba));
+		notifyObservers("Bomber," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]) + "," + dir + "," + String.valueOf(hayBomba) + "," + this.color);
 	}
 	
 	public void notificacionPeriodica()
 	{
-		setChanged();
-		notifyObservers("PeriodoBomber," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
+		if(this.coordenadas[0]+ this.coordenadas[1] >0)
+		{
+			setChanged();
+			notifyObservers("PeriodoBomber," + String.valueOf(this.coordenadas[0]) + "," + String.valueOf(this.coordenadas[1]));
+		}
+		
 		
 		if(bombas.size()>0)
 		{

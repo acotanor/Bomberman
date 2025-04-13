@@ -4,9 +4,10 @@ public class BombermanNegro extends Bomberman{
     private static BombermanNegro miBom = new BombermanNegro();
     private BombermanNegro(){
         super();
+        this.color = "black";
     }
     public static BombermanNegro getBom(){
-        return miBom;
+    	return miBom;
     }
 
     @Override
@@ -16,7 +17,7 @@ public class BombermanNegro extends Bomberman{
             this.bombas.add(bomba);
     
             setChanged();
-            notifyObservers("Bomba," + this.coordenadas[0] + "," + this.coordenadas[1]);
+            notifyObservers("Bomba," + this.coordenadas[0] + "," + this.coordenadas[1] + ",black");
         }
     }
 }

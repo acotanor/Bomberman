@@ -6,7 +6,6 @@ public class MatrizBloques extends Observable
 {
 	private static MatrizBloques miMB = new MatrizBloques();
 	private Bloque[][] matriz;
-	private int escenario = 0;
 	
 	private MatrizBloques() 
 	{
@@ -20,33 +19,22 @@ public class MatrizBloques extends Observable
 	}
 	
 	
-	public void setClassic() {
-		escenario = 0;
-		
-	}
-	public void setSoft() {
-		escenario = 1;
-		
-	}
-	public void setEmpty() {
-		escenario = 2; 
-	}
+	
 	public Bloque[][] getMatriz(){
 		return matriz;
 	}
 	
 	//Genera una pantalla con bloques duros en casillas impares, y bloques duros y blandos en las demas
-	public void inicializarPantallaClasica()
+	public void inicializarPantalla(String escenario)
 	{
-		
-		if(escenario == 0) {
+		if(escenario.equals("CLASICA")) {
 			generarBloquesDuros();
 			generarBloquesVaciosYBlandos();
 		}
-		if (escenario ==1 ) {
+		if (escenario.equals("SOFT")) {
 			generarBloquesVaciosYBlandos();
 		}
-		if (escenario ==2) {
+		if (escenario.equals("VACIA")) {
 			generarBloquesVacios();
 		}
 	}
@@ -138,6 +126,47 @@ public class MatrizBloques extends Observable
 		}
 	}
 	
+	public void arderExtendido(int pI, int pJ)
+	{
+		int i = pI;
+		boolean salir = false;
+		while (i<11 && !salir)
+		{
+			salir = matriz[i][pJ].getType().equals("BloqueDuro");
+			if(i!=pI)
+			{
+				arder(i, pJ);
+			}
+			i++;
+		}
+		i = pI;
+		while (i>=0 && !salir)
+		{
+			salir = matriz[i][pJ].getType().equals("BloqueDuro");
+			if(i!=pI)
+			{
+				arder(i, pJ);
+			}
+			i--;
+		}
+		
+		int j = pJ;
+		salir = false;
+		while(j<17 && !salir)
+		{
+			salir = matriz[pI][j].getType().equals("BloqueDuro");
+			arder(pI, j);
+			j++;
+		}
+		j = pJ;
+		while(j>=0 && !salir)
+		{
+			salir = matriz[pI][j].getType().equals("BloqueDuro");
+			arder(pI, j);
+			j--;
+		}
+	}
+	
 	//El bloque de la fila pI y la columna pJ pasa de ser un bloque ardiendo a un bloque vacio
 	public void dejarDeArder(int pI, int pJ)
 	{
@@ -151,5 +180,6 @@ public class MatrizBloques extends Observable
 		setChanged();
 		notifyObservers(tipo + "," + String.valueOf(i) + "," + String.valueOf(j));
 	}
+	
 	
 }
