@@ -6,7 +6,7 @@ public class MatrizBloques extends Observable
 {
 	private static MatrizBloques miMB = new MatrizBloques();
 	private Bloque[][] matriz;
-		
+	private int escenario = 0;
 	
 	private MatrizBloques() 
 	{
@@ -20,33 +20,47 @@ public class MatrizBloques extends Observable
 	}
 	
 	
-	//Genera una pantalla con bloques duros en casillas impares, y bloques vacios y blandos en las demas
+	public void setClassic() {
+		escenario = 0;
+		
+	}
+	public void setSoft() {
+		escenario = 1;
+		
+	}
+	public void setEmpty() {
+		escenario = 2; 
+	}
+	public Bloque[][] getMatriz(){
+		return matriz;
+	}
+	
+	//Genera una pantalla con bloques duros en casillas impares, y bloques duros y blandos en las demas
 	public void inicializarPantallaClasica()
 	{
-		generarBloquesDuros();
-		generarBloquesVaciosYBlandos();
-	}
-	
-	//Genera una pantalla con bloques blandos y vacios
-	public void inicializarPantallaSoft()
-	{
-		generarBloquesVaciosYBlandos();
-	}
-
-	//Genera una pantalla con bloques vacios
-	public void inicializarPantallaEmpty()
-	{
-		for (int i=0;i<11;i+=1)
-		{
-			for (int j=0;j<17;j+=1)
-			{
-				matriz[i][j] = new BloqueVacio();
-				notificarBloque(i,j,"BloqueVacio");
-			}
+		
+		if(escenario == 0) {
+			generarBloquesDuros();
+			generarBloquesVaciosYBlandos();
+		}
+		if (escenario ==1 ) {
+			generarBloquesVaciosYBlandos();
+		}
+		if (escenario ==2) {
+			generarBloquesVacios();
 		}
 	}
-	
-	
+	private void generarBloquesVacios() {
+		//Se generan bloques vacios en todas las posicions para la pantalla soft
+				for (int i=0;i<11;i+=1)
+				{
+					for (int j=0;j<17;j+=1)
+					{
+						matriz[i][j] = new BloqueVacio();
+						notificarBloque(i,j,"BloqueVacio");
+					}
+				}
+	}
 	
 	//Genera bloques duros en casillas impares
 	private void generarBloquesDuros() {
