@@ -171,7 +171,6 @@ public class MatrizBloques extends Observable
 	public void dejarDeArder(int pI, int pJ)
 	{
 		matriz[pI][pJ] = new BloqueVacio();
-		notificarBloque(pI,pJ,"BloqueVacio");
 	}
 	
 	//Notifica el tipo del bloque de la fila i y la columna j a la vista

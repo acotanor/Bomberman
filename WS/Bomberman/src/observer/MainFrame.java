@@ -289,11 +289,12 @@ public class MainFrame extends JFrame implements Observer {
 				{
 					timers[pI][pJ].cancel();
 					timers[pI][pJ] = null;
+					actualizarBloque("BloqueVacio" + "," + String.valueOf(pI) + "," + String.valueOf(pJ)); //maneja la desaparicion aqui
 				}
 			}		
 		};
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 400);
+		timer.scheduleAtFixedRate(timerTask, 0, 500);
 		if(timers[pI][pJ] != null)
 		{
 			timers[pI][pJ].cancel();
